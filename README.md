@@ -11,7 +11,7 @@ Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
+      <td align="center">Post</td>
       <td align="center"> /users/:userId/follow/:userIdToFollow </td>
       <td>
         <ul>
