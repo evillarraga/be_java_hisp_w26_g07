@@ -279,3 +279,119 @@ Ordenamiento por fecha ascendente y descendente
     </tr>
   </tbody>
 </table>
+
+### US 0010
+Llevar a cabo la publicación de un nuevo producto en promoción
+<table>
+  <tbody>
+    <tr>
+      <th>Method</th>
+      <th>Url</th>
+      <th>Payload</th>
+      <th>Response</th>
+    </tr>
+    <tr>
+      <td align="center">Post</td>
+      <td align="center"> /products/promo-post </td>
+<td>
+  
+```json
+{
+   "user_id":234,
+   "date":"29-04-2021",
+   "product":{
+      "product_id":1,
+      "product_name":"Silla Gamer",
+      "type":"Gamer",
+      "brand":"Racer",
+      "color":"Red & Black",
+      "notes":"Special Edition"
+   },
+   "category":100,
+   "price":1500.50,
+   "has_promo":true,
+   "discount":0.25
+}
+```
+</td>
+    <td align="center">
+        <ul>
+          <li>200 (Todo OK)</li>
+          <li>400 (Bad Request)</li>
+        </ul>  
+    </td>
+    </tr>
+  </tbody>
+</table>
+
+### US 0011
+Obtener la cantidad de productos en promoción de un determinado vendedor
+
+<table>
+  <tbody>
+    <tr>
+      <th>Method</th>
+      <th>Url</th>
+      <th>Response</th>
+    </tr>
+    <tr>
+      <td align="center">Get</td>
+      <td align="center"> /products/promo-post/count?user_id={userId} </td>
+<td>
+  
+```json
+{
+   "user_id":234,
+   "user_name":"vendedor1",
+   "promo_products_count":23
+}
+```
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### US 0012
+Obtener un listado de todos los productos en promoción de un determinado vendedor
+
+<table>
+  <tbody>
+    <tr>
+      <th>Method</th>
+      <th>Url</th>
+      <th>Response</th>
+    </tr>
+    <tr>
+      <td align="center">Get</td>
+      <td align="center"> /products/promo-post/list?user_id={userId} </td>
+<td>
+  
+```json
+{
+   "user_id":234,
+   "user_name":"vendedor1",
+   "posts":[
+      {
+         "user_id":234,
+         "post_id":18,
+         "date":"29-04-2021",
+         "product":{
+            "product_id":1,
+            "product_name":"Silla Gamer",
+            "type":"Gamer",
+            "brand":"Racer",
+            "color":"Red & Black",
+            "notes":"Special Edition"
+         },
+         "category":"100",
+         "price":15000.50,
+         "has_promo":true,
+         "discount":0.25
+      }
+   ]
+}
+```
+</td>
+    </tr>
+  </tbody>
+</table>
