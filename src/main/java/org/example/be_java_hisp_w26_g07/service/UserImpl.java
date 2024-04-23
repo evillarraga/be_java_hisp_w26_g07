@@ -1,4 +1,13 @@
 package org.example.be_java_hisp_w26_g07.service;
 
-public class UserImpl {
+import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRespository;
+import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class UserImpl implements IUserService {
+    private final IUserRespository iUserRespository;
+
+    public UserImpl(@Autowired IUserRespository iUserRespository) {
+        this.iUserRespository = iUserRespository;
+    }
 }

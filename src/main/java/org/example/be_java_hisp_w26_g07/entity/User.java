@@ -14,7 +14,7 @@ import java.util.Map;
 public class User {
 
     @JsonProperty("user_id")
-    private int id;
+    private Integer id;
     @JsonProperty("user_name")
     private String name;
     @JsonProperty("posts")
@@ -24,6 +24,6 @@ public class User {
     @JsonProperty("followedIds")
     private List<Integer> followedIds;
     @JsonProperty("isSeller")
-    private boolean isSeller;
+    private Boolean isSeller;
 
 }

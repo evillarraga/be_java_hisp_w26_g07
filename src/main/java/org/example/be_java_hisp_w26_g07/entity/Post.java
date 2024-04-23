@@ -13,9 +13,9 @@ import java.time.LocalDate;
 public class Post {
 
     @JsonProperty("user_id")
-    private int userId;
+    private Integer userId;
     @JsonProperty("post_id")
-    private int id;
+    private Integer id;
     @JsonProperty("date")
     private LocalDate date;
     @JsonProperty("product")
@@ -23,6 +23,6 @@ public class Post {
     @JsonProperty("category")
     private String category;
     @JsonProperty("price")
-    private double price;
+    private Double price;
 
 }

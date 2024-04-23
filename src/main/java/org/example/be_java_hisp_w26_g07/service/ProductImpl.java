@@ -1,4 +1,6 @@
 package org.example.be_java_hisp_w26_g07.service;
 
-public class ProductImpl {
+import org.example.be_java_hisp_w26_g07.service.interfaces.IProductService;
+
+public class ProductImpl implements IProductService {
 }
