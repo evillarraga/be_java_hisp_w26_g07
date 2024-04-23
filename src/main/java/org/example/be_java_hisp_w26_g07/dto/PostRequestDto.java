@@ -8,14 +8,14 @@ import java.time.LocalDate;
 public class PostRequestDto {
 
     @JsonProperty("user_id")
-    private int userId;
+    private Integer userId;
     @JsonProperty("date")
     private LocalDate date;
     @JsonProperty("product")
     private Product product;
     @JsonProperty("category")
     private String category;
-    @JsonProperty("")
+    @JsonProperty("price")
     private double price;
 
 }

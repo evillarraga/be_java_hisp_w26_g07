@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -18,6 +19,10 @@ public class User {
     private String name;
     @JsonProperty("posts")
     private Map<Integer, Post> posts;
+    @JsonProperty("followerIds")
+    private List<Integer> followerIds;
+    @JsonProperty("followedIds")
+    private List<Integer> followedIds;
     @JsonProperty("isSeller")
     private boolean isSeller;
 
