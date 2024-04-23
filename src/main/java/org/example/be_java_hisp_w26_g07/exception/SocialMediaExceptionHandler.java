@@ -15,7 +15,7 @@ public class SocialMediaExceptionHandler {
         return new ResponseEntity<>(exdto, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(BadRequestExecption.class)
+    @ExceptionHandler(BadRequestExeception.class)
     public ResponseEntity<ExceptionDto> badRequest(BadRequestException ex) {
         ExceptionDto exdto = new ExceptionDto(ex.getMessage());
         return new ResponseEntity<>(exdto, HttpStatus.BAD_REQUEST);

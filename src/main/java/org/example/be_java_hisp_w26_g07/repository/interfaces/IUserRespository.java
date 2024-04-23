@@ -6,5 +6,10 @@ import java.util.List;
 
 public interface IUserRespository {
     List<User> findAll();
+
     User findById(Integer id);
+
+    Boolean addFollowerById(Integer id, Integer userToFollow);
+
+    Boolean userFollowSeller(Integer id, Integer userToFollow);
 }
