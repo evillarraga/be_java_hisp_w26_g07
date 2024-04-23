@@ -1,6 +1,5 @@
 package org.example.be_java_hisp_w26_g07.exception;
 
-import org.apache.coyote.BadRequestException;
 import org.example.be_java_hisp_w26_g07.dto.ExceptionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ public class SocialMediaExceptionHandler {
         return new ResponseEntity<>(exdto, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(BadRequestExeception.class)
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ExceptionDto> badRequest(BadRequestException ex) {
         ExceptionDto exdto = new ExceptionDto(ex.getMessage());
         return new ResponseEntity<>(exdto, HttpStatus.BAD_REQUEST);

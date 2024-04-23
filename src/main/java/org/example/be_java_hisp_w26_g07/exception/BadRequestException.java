@@ -1,7 +1,7 @@
 package org.example.be_java_hisp_w26_g07.exception;
 
-public class BadRequestExeception extends RuntimeException {
-    public BadRequestExeception(String message) {
+public class BadRequestException extends RuntimeException {
+    public BadRequestException(String message) {
         super(message);
     }
 }

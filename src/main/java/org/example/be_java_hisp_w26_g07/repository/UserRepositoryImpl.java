@@ -1,7 +1,7 @@
 package org.example.be_java_hisp_w26_g07.repository;
 
 import org.example.be_java_hisp_w26_g07.entity.User;
-import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRespository;
+import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserRespositoryImpl implements IUserRespository {
+public class UserRepositoryImpl implements IUserRepository {
 
     private final List<User> users;
 
-    public UserRespositoryImpl(@Qualifier("getUsers") List<User> users) {
+    public UserRepositoryImpl(@Qualifier("getUsers") List<User> users) {
         this.users = users;
     }
 
