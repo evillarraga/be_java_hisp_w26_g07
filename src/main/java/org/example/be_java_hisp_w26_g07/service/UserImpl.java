@@ -1,9 +1,13 @@
 package org.example.be_java_hisp_w26_g07.service;
 
+
+import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.FollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.CountFollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.UserInfoFollowsDto;
 import org.example.be_java_hisp_w26_g07.entity.User;
+import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.exception.NotAcceptable;
 import org.example.be_java_hisp_w26_g07.exception.NotFoundException;
@@ -12,6 +16,7 @@ import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,6 +79,24 @@ public class UserImpl implements IUserService {
     }
 
     @Override
+    public FollowersResponseDto findFollowersByOrder(Integer userId, String order) {
+        User seller = iUserRepository.findById(userId);
+
+        if(seller == null) throw new NotFoundException("Vendedor no encontrado");
+        if(!seller.getIsSeller()) throw new BadRequestException("El usuario no es un vendedor");
+
+        FollowersResponseDto followersResponseDto = new FollowersResponseDto();
+
+        List<UserInfoFollowsDto> userInfoFollowsDto= getUserInfoFollowers(seller.getFollowedIds());
+        getUserInfoFollowsDtoByOrder(userInfoFollowsDto, order);
+        followersResponseDto.setFollowers(userInfoFollowsDto);
+        followersResponseDto.setId(seller.getId());
+        followersResponseDto.setName(seller.getName());
+
+        return followersResponseDto;
+    }
+
+    @Override
     public CountFollowersResponseDto getNumberOfSellersFollowed(String userId) {
         if (!userId.matches("\\d+")) {
             throw new BadRequestException("El valor ingresado no es numérico");
@@ -86,5 +109,31 @@ public class UserImpl implements IUserService {
             throw new NotAcceptable("Existe el usuario pero no es vendedor");
         }
         return new CountFollowersResponseDto(user.getId(), user.getName(), user.getFollowerIds().size());
+    }
+
+    private void getUserInfoFollowsDtoByOrder(List<UserInfoFollowsDto> userInfoFollowsDto,
+                                                                  String order) {
+        if(order == null) return;
+
+        switch (order){
+            case "name_asc":
+                userInfoFollowsDto.sort(Comparator.comparing(UserInfoFollowsDto::getName));
+                break;
+            case "name_desc":
+                 userInfoFollowsDto.sort(Comparator.comparing(UserInfoFollowsDto::getName).reversed());
+                break;
+            default:
+        }
+
+    }
+
+    private List<UserInfoFollowsDto> getUserInfoFollowers(List<Integer> usersId) {
+        List<UserInfoFollowsDto> followers = new ArrayList<>();
+        for(Integer userIdToFind : usersId){
+            User follower = iUserRepository.findById(userIdToFind);
+            UserInfoFollowsDto userInfoFollowsDto = new UserInfoFollowsDto(follower.getId(), follower.getName());
+            followers.add(userInfoFollowsDto);
+        }
+        return followers;
     }
 }
