@@ -1,5 +1,7 @@
 package org.example.be_java_hisp_w26_g07.controller;
 
+import jakarta.validation.Valid;
+import org.example.be_java_hisp_w26_g07.dto.PostDto;
 import org.example.be_java_hisp_w26_g07.dto.PostRequestDto;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IProductService;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,8 @@ public class ProductController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Void> addPost(@RequestBody PostRequestDto post) {
-        return null;
+    public ResponseEntity<PostDto> addPost(@RequestBody @Valid PostRequestDto post) {
+        return new ResponseEntity<>(productService.createPost(post), HttpStatus.OK);
     }
 
     @GetMapping("/followed/{userId}/list")
