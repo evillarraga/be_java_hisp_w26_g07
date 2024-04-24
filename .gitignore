@@ -56,6 +56,10 @@ cmake-build-*/
 # IntelliJ
 out/
 
+# VsCode
+.vscode
+.pre-commit-config.yaml
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 

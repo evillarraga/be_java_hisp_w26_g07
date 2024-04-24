@@ -25,5 +25,4 @@ public class User {
     private List<Integer> followedIds;
     @JsonProperty("isSeller")
     private Boolean isSeller;
-
 }

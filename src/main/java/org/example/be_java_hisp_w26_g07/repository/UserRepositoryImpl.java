@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,5 +74,14 @@ public class UserRepositoryImpl implements IUserRepository {
         }
 
         return posts;
+    }
+    @Override
+    public boolean unfollow(User user, Integer followedId) {
+        int uInd = users.indexOf(user);
+        List<Integer> oldFollows = new ArrayList<>(user.getFollowedIds());
+        boolean isRemoved = oldFollows.remove(Integer.valueOf(followedId));
+        user.setFollowedIds(oldFollows);
+        users.set(uInd, user);
+        return isRemoved;
     }
 }
