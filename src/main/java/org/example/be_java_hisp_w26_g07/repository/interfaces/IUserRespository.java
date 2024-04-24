@@ -7,4 +7,5 @@ import java.util.List;
 public interface IUserRespository {
     List<User> findAll();
     User findById(Integer id);
+    boolean unfollow(User user, Integer followedId);
 }

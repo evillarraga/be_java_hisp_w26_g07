@@ -25,4 +25,12 @@ public class UserRespositoryImpl implements IUserRespository {
     public List<User> findAll() {
         return users;
     }
+
+    @Override
+    public boolean unfollow(User user, Integer followedId) {
+        int uInd = users.indexOf(user);
+        boolean followDeleted = user.deleteFollow(followedId);
+        users.set(uInd, user);
+        return followDeleted;
+    }
 }
