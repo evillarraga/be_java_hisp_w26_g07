@@ -11,12 +11,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountFollowersResponseDto implements Serializable {
-
     @JsonProperty("user_id")
     private Integer id;
     @JsonProperty("user_name")
     private String name;
     @JsonProperty("followers_count")
     private Integer followersCount;
-
 }

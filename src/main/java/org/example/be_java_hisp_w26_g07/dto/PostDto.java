@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDto {
-
     @JsonProperty("user_id")
     private Integer userId;
     @JsonProperty("post_id")
@@ -31,5 +30,4 @@ public class PostDto {
     private String category;
     @JsonProperty("price")
     private Double price;
-
 }

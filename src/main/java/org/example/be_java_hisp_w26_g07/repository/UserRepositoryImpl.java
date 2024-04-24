@@ -63,11 +63,9 @@ public class UserRepositoryImpl implements IUserRepository {
         List<Post> posts = new ArrayList<>();
         List<Post> postsRecently = new ArrayList<>();
         for (Integer userFollower : user.getFollowerIds()) {
-
             postsRecently = findById(userFollower).getPosts().stream()
                     .filter(post -> post.getDate().isAfter(LocalDate.now().minusDays(14)))
-                    .collect(Collectors.toList());
-
+                    .toList();
             posts.addAll(postsRecently);
         }
 
