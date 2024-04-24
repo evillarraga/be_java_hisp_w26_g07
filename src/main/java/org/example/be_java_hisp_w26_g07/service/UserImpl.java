@@ -80,7 +80,7 @@ public class UserImpl implements IUserService {
 
         FollowersResponseDto followersResponseDto = new FollowersResponseDto();
 
-        List<UserInfoFollowsDto> userInfoFollowsDto = getUserInfoFollowers(seller.getFollowedIds());
+        List<UserInfoFollowsDto> userInfoFollowsDto = getUserInfoFollowers(seller.getFollowerIds());
         getUserInfoFollowsDtoByOrder(userInfoFollowsDto, order);
         followersResponseDto.setFollowers(userInfoFollowsDto);
         followersResponseDto.setId(seller.getId());
