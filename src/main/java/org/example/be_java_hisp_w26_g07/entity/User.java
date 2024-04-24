@@ -25,8 +25,4 @@ public class User {
     private List<Integer> followedIds;
     @JsonProperty("isSeller")
     private Boolean isSeller;
-
-    public boolean deleteFollow(Integer followId) {
-        return followedIds.remove(followId);
-    }
 }
