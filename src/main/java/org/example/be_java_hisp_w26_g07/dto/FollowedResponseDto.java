@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
+import java.util.List;
+
 @Data
-public class UserInfoFollowsDto {
+@AllArgsConstructor
+public class FollowedResponseDto {
     @JsonProperty("user_id")
     private int id;
     @JsonProperty("user_name")
     private String name;
+    private List<UserInfoFollowsDto> followed;
 }
