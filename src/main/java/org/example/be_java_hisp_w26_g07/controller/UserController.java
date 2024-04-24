@@ -4,6 +4,7 @@ import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.example.be_java_hisp_w26_g07.dto.CountFollowersResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<Void> numberOfSellersFollowed(@PathVariable String userId) {
-        return null;
+    public ResponseEntity<CountFollowersResponseDto> numberOfSellersFollowed(@PathVariable String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getNumberOfSellersFollowed(userId));
     }
 
     @GetMapping("/{userId}/followers/list")
@@ -43,5 +44,5 @@ public class UserController {
         return null;
     }
 
-
+    
 }

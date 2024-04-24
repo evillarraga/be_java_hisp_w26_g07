@@ -19,4 +19,9 @@ public class SocialMediaExceptionHandler {
         ExceptionDto exdto = new ExceptionDto(ex.getMessage());
         return new ResponseEntity<>(exdto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NotAcceptable.class)
+    public ResponseEntity<ExceptionDto> handlerNotAcceptable(NotAcceptable ex) {
+        return new ResponseEntity<>(new ExceptionDto(ex.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+    }
 }
