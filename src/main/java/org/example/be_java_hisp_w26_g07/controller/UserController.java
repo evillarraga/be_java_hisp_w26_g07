@@ -1,5 +1,6 @@
 package org.example.be_java_hisp_w26_g07.controller;
 
+import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,15 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<Void> followersList(@PathVariable String userId) {
-        return null;
+    public ResponseEntity<FollowedResponseDto> followersList(@PathVariable Integer userId,
+                                                             @RequestParam String order) {
+        return new ResponseEntity<>(userService.findFollowedUsers(userId, order), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<Void> unfollow(@PathVariable String userId, @PathVariable String userIdToUnfollow) {
         return null;
     }
+
+
 }

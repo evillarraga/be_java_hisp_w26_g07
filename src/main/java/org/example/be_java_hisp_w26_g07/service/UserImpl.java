@@ -1,11 +1,18 @@
 package org.example.be_java_hisp_w26_g07.service;
 
+import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.UserInfoFollowsDto;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRepository;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserImpl implements IUserService {
@@ -39,5 +46,27 @@ public class UserImpl implements IUserService {
         }
         iUserRepository.addFollowerById(userId, sellerId);
         return true;
+    }
+
+    @Override
+    public FollowedResponseDto findFollowedUsers(Integer id, String order) {
+        User user = iUserRepository.findById(id);
+        Stream<UserInfoFollowsDto> userInfoFollowsDtos = user.getFollowedIds().stream()
+                .map(followedId -> iUserRepository.findById(followedId))
+                .map(followedUser -> new UserInfoFollowsDto(followedUser.getId(), followedUser.getName()))
+                ;
+        List<UserInfoFollowsDto> list;
+        if(order.equals("name_desc")){
+            list = userInfoFollowsDtos.sorted(Comparator.comparing(UserInfoFollowsDto::getName).reversed())
+                    .collect(Collectors.toList());
+
+        }else {
+            list = userInfoFollowsDtos.sorted(Comparator.comparing(UserInfoFollowsDto::getName))
+                    .collect(Collectors.toList());
+        }
+
+
+        return new FollowedResponseDto(id, user.getName(), list );
+
     }
 }
