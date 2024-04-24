@@ -14,7 +14,7 @@ public class UserRepositoryImpl implements IUserRepository {
     private final List<User> users;
 
     public UserRepositoryImpl(@Qualifier("getUsers") List<User> users) {
-        this.users = users;
+       this.users = users;
     }
 
     @Override
@@ -54,4 +54,6 @@ public class UserRepositoryImpl implements IUserRepository {
         user.setFollowerIds(newFollows);
         return true;
     }
+
+
 }
