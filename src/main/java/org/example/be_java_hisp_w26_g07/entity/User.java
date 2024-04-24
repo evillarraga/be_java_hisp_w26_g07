@@ -18,7 +18,7 @@ public class User {
     @JsonProperty("user_name")
     private String name;
     @JsonProperty("posts")
-    private Map<Integer, Post> posts;
+    private List<Post> posts;
     @JsonProperty("followerIds")
     private List<Integer> followerIds;
     @JsonProperty("followedIds")
