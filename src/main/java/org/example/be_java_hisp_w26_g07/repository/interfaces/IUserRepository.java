@@ -14,5 +14,5 @@ public interface IUserRepository {
 
     Boolean userFollowSeller(Integer id, Integer userToFollow);
 
-
+    boolean unfollow(User user, Integer followedId);
 }

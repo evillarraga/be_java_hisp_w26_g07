@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -55,5 +57,13 @@ public class UserRepositoryImpl implements IUserRepository {
         return true;
     }
 
-
+    @Override
+    public boolean unfollow(User user, Integer followedId) {
+        int uInd = users.indexOf(user);
+        List<Integer> oldFollows = new ArrayList<>(user.getFollowedIds());
+        boolean isRemoved = oldFollows.remove(Integer.valueOf(followedId));
+        user.setFollowedIds(oldFollows);
+        users.set(uInd, user);
+        return isRemoved;
+    }
 }

@@ -1,13 +1,12 @@
 package org.example.be_java_hisp_w26_g07.service;
 
-
 import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.FollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.CountFollowersResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.SuccessResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.UserInfoFollowsDto;
 import org.example.be_java_hisp_w26_g07.entity.User;
-import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.exception.NotAcceptable;
 import org.example.be_java_hisp_w26_g07.exception.NotFoundException;
@@ -135,5 +134,18 @@ public class UserImpl implements IUserService {
             followers.add(userInfoFollowsDto);
         }
         return followers;
+    }
+
+    @Override
+    public SuccessResponseDto unfollow(Integer userId, Integer userIdToUnfollow) {
+        User foundUser = iUserRepository.findById(userId);
+        if (foundUser == null){
+            throw new NotFoundException("El usuario no fue encontrado");
+        }
+        boolean followDeleted = iUserRepository.unfollow(foundUser, userIdToUnfollow);
+        if (!followDeleted) {
+            throw new BadRequestException("No se encontró el usuario para dejar de seguir");
+        }
+        return new SuccessResponseDto("Se ha dejado de seguir al usuario");
     }
 }

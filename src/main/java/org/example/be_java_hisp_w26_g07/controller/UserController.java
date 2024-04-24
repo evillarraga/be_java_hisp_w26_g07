@@ -1,11 +1,11 @@
 package org.example.be_java_hisp_w26_g07.controller;
 
-import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
-import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
-import org.example.be_java_hisp_w26_g07.dto.FollowersResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.SuccessResponseDto;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.FollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.CountFollowersResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     private final IUserService userService;
 
     public UserController(@Autowired IUserService userService) {
@@ -43,8 +42,8 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
-    public ResponseEntity<Void> unfollow(@PathVariable String userId, @PathVariable String userIdToUnfollow) {
-        return null;
+    public ResponseEntity<SuccessResponseDto> unfollow(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow) {
+        SuccessResponseDto responseDto = userService.unfollow(userId, userIdToUnfollow);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
-    
 }
