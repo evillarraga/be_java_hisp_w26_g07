@@ -12,7 +12,7 @@ public class ProductController {
 
     IProductService productService;
 
-    public ProductController(IProductService productService){
+    public ProductController(IProductService productService) {
         this.productService = productService;
     }
 
@@ -23,7 +23,7 @@ public class ProductController {
 
     @GetMapping("/followed/{userId}/list")
     public ResponseEntity<?> getLatestPost(@PathVariable Integer userId, @RequestParam(required = false) String order) {
-        return new ResponseEntity<>(productService.findProductByFollow(userId,order), HttpStatus.OK);
+        return new ResponseEntity<>(productService.findProductByFollow(userId, order), HttpStatus.OK);
     }
 
 

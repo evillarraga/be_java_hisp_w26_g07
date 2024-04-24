@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +17,7 @@ public class UserRepositoryImpl implements IUserRepository {
     private final List<User> users;
 
     public UserRepositoryImpl(@Qualifier("getUsers") List<User> users) {
-       this.users = users;
+        this.users = users;
     }
 
     @Override
@@ -64,7 +62,7 @@ public class UserRepositoryImpl implements IUserRepository {
     public List<Post> findProductByFollow(User user) {
         List<Post> posts = new ArrayList<>();
         List<Post> postsRecently = new ArrayList<>();
-        for (Integer userFollower: user.getFollowerIds()) {
+        for (Integer userFollower : user.getFollowerIds()) {
 
             postsRecently = findById(userFollower).getPosts().stream()
                     .filter(post -> post.getDate().isAfter(LocalDate.now().minusDays(14)))
@@ -75,6 +73,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
         return posts;
     }
+
     @Override
     public boolean unfollow(User user, Integer followedId) {
         int uInd = users.indexOf(user);
