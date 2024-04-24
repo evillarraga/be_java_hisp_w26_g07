@@ -1,6 +1,8 @@
 package org.example.be_java_hisp_w26_g07.controller;
 
 import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.FollowedResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.FollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,9 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<Void> listOfFollowedSellesrs(@PathVariable String userId) {
-        return null;
+    public ResponseEntity<FollowersResponseDto> listOfFollowersSellesrs(@PathVariable Integer userId,
+                                                                        @RequestParam(required = false) String order) {
+        return new ResponseEntity<>(userService.findFollowersByOrder(userId, order), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/followed/list")
@@ -43,6 +46,5 @@ public class UserController {
     public ResponseEntity<Void> unfollow(@PathVariable String userId, @PathVariable String userIdToUnfollow) {
         return null;
     }
-
     
 }
