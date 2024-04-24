@@ -39,33 +39,33 @@ public class DataConfiguration {
         Post post9 = new Post(4, 9, date9, new Product(9, "Bed", "Furniture", "Furniture Co.", "Gray", "Comfortable bed for a good night's sleep", 9), "Furniture", 699.99);
         Post post10 = new Post(4, 10, date10, new Product(10, "Chair", "Furniture", "Furniture Co.", "Red", "Modern chair with metal legs", 10), "Furniture", 79.99);
 
-        Map<Integer, Post> map1 = new HashMap<>();
-        Map<Integer, Post> map2 = new HashMap<>();
-        Map<Integer, Post> map3 = new HashMap<>();
-        Map<Integer, Post> map4 = new HashMap<>();
+        List<Post> lis1 = new ArrayList<>();
+        List<Post> lis2 = new ArrayList<>();
+        List<Post> lis3 = new ArrayList<>();
+        List<Post> lis4 = new ArrayList<>();
 
-        map1.put(1, post1);
-        map1.put(2, post2);
-        map1.put(3, post3);
-        map1.put(4, post4);
-        map2.put(5, post5);
-        map2.put(6, post6);
-        map3.put(7, post7);
-        map4.put(8, post8);
-        map4.put(9, post9);
-        map4.put(10, post10);
+        lis1.add(post1);
+        lis1.add(post2);
+        lis1.add(post3);
+        lis1.add(post4);
+        lis2.add(post5);
+        lis2.add(post6);
+        lis3.add(post7);
+        lis4.add(post8);
+        lis4.add(post9);
+        lis4.add(post10);
 
         List<User> users = new ArrayList<>();
 
-        users.add(new User(1, "Monica", map1, List.of(2, 3, 4, 8, 9), List.of(2, 3), true));
-        users.add(new User(2, "Santiago", map2, List.of(1, 3, 5, 6, 9), List.of(1, 3), true));
-        users.add(new User(3, "Cristian", map3, List.of(1, 2, 5, 6, 9), List.of(1, 2, 4), true));
-        users.add(new User(4, "Edwin", map4, List.of(3, 7, 8), List.of(1), true));
-        users.add(new User(5, "Bryann", new HashMap<>(), new ArrayList<>(), List.of(2, 3), false));
-        users.add(new User(6, "Carlos", new HashMap<>(), new ArrayList<>(), List.of(2, 3), false));
-        users.add(new User(7, "Cristopher", new HashMap<>(), new ArrayList<>(), List.of(4), false));
-        users.add(new User(8, "Leandro", new HashMap<>(), new ArrayList<>(), List.of(1, 4), false));
-        users.add(new User(9, "Martin", new HashMap<>(), new ArrayList<>(), List.of(1, 2, 3), false));
+        users.add(new User(1, "Monica", lis1, List.of(2, 3, 4, 8, 9), List.of(2, 3,4), true));
+        users.add(new User(2, "Santiago", lis2, List.of(1, 3, 5, 6, 9), List.of(1, 3), true));
+        users.add(new User(3, "Cristian", lis3, List.of(1, 2, 5, 6, 9), List.of(1, 2, 4), true));
+        users.add(new User(4, "Edwin", lis4, List.of(3, 1,7, 8), List.of(1), true));
+        users.add(new User(5, "Bryann", new ArrayList<>(), new ArrayList<>(), List.of(2, 3), false));
+        users.add(new User(6, "Carlos", new ArrayList<>(), new ArrayList<>(), List.of(2, 3), false));
+        users.add(new User(7, "Cristopher", new ArrayList<>(), new ArrayList<>(), List.of(4), false));
+        users.add(new User(8, "Leandro", new ArrayList<>(), new ArrayList<>(), List.of(1, 4), false));
+        users.add(new User(9, "Martin", new ArrayList<>(), new ArrayList<>(), List.of(1, 2, 3), false));
 
         return users;
     }

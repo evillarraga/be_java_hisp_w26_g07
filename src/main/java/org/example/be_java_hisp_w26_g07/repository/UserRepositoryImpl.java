@@ -1,14 +1,17 @@
 package org.example.be_java_hisp_w26_g07.repository;
 
+import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepositoryImpl implements IUserRepository {
@@ -57,6 +60,21 @@ public class UserRepositoryImpl implements IUserRepository {
         return true;
     }
 
+    @Override
+    public List<Post> findProductByFollow(User user) {
+        List<Post> posts = new ArrayList<>();
+        List<Post> postsRecently = new ArrayList<>();
+        for (Integer userFollower: user.getFollowerIds()) {
+
+            postsRecently = findById(userFollower).getPosts().stream()
+                    .filter(post -> post.getDate().isAfter(LocalDate.now().minusDays(14)))
+                    .collect(Collectors.toList());
+
+            posts.addAll(postsRecently);
+        }
+
+        return posts;
+    }
     @Override
     public boolean unfollow(User user, Integer followedId) {
         int uInd = users.indexOf(user);
