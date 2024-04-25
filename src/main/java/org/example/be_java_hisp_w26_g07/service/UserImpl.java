@@ -53,6 +53,7 @@ public class UserImpl implements IUserService {
     @Override
     public FollowedResponseDto findFollowedUsers(Integer id, String order) {
         User user = iUserRepository.findById(id);
+        if (user == null) throw new NotFoundException("Vendedor no encontrado");
         Stream<UserInfoFollowsDto> userInfoFollowsDtos = user.getFollowedIds().stream()
                 .map(followedId -> iUserRepository.findById(followedId))
                 .map(followedUser -> new UserInfoFollowsDto(followedUser.getId(), followedUser.getName()));
