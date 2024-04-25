@@ -3,6 +3,8 @@ package org.example.be_java_hisp_w26_g07.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.be_java_hisp_w26_g07.dto.PostDto;
 import org.example.be_java_hisp_w26_g07.dto.PostRequestDto;
+import org.example.be_java_hisp_w26_g07.dto.PromoPostCountDto;
+import org.example.be_java_hisp_w26_g07.dto.PromotionPostDto;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
@@ -55,17 +57,59 @@ public class ProductImpl implements IProductService {
         }
     }
 
+    private PostDto savePostUtility(Post post) {
+        ObjectMapper mapper = new ObjectMapper();
+        User user = iUserRepository.findById(post.getUserId());
+        post.setId(PostUtil.increaseCounter());
+        user.getPosts().add(post);
+        user.setIsSeller(true);
+        return mapper.convertValue(post, PostDto.class);
+    }
+
     @Override
     public PostDto createPost(PostRequestDto postRequestDto) {
+        ObjectMapper mapper = new ObjectMapper();
         User myUser = iUserRepository.findById(postRequestDto.getUserId());
         if (myUser == null) {
             throw new BadRequestException("El usuario no existe");
         }
-        ObjectMapper mapper = new ObjectMapper();
         Post post = mapper.convertValue(postRequestDto, Post.class);
-        post.setId(PostUtil.increaseCounter());
-        myUser.getPosts().add(post);
-        myUser.setIsSeller(true);
-        return mapper.convertValue(post, PostDto.class);
+        return savePostUtility(post);
+    }
+
+    @Override
+    public PostDto createPromotionPost(PromotionPostDto promotion) {
+        ObjectMapper mapper = new ObjectMapper();
+        Post post = mapper.convertValue(promotion, Post.class);
+        return savePostUtility(post);
+    }
+
+    @Override
+    public PromoPostCountDto findListPromotionCountById(Integer userId) {
+        User user = iUserRepository.findById(userId);
+        if (user == null) throw new NotFoundException("El usuario no existe");
+        if (!user.getIsSeller()) throw new NotFoundException("El usuario no es vendedor");
+        return new PromoPostCountDto(userId, user.getName(), iUserRepository.findPostPromotionByUserId(userId).size());
+    }
+
+    @Override
+    public List<PostDto> findListPromotionById(Integer userId) {
+        ObjectMapper mapper = new ObjectMapper();
+        User user = iUserRepository.findById(userId);
+        if (user == null) throw new NotFoundException("El usuario no existe");
+        if (!user.getIsSeller()) throw new NotFoundException("El usuario no es vendedor");
+        return iUserRepository.findPostPromotionByUserId(userId)
+                .stream()
+                .map(promotion -> mapper.convertValue(promotion, PostDto.class))
+                .toList();
+    }
+
+    @Override
+    public List<PostDto> findProductsBetweenPrice(Double minPrice, Double maxPrice) {
+        ObjectMapper mapper = new ObjectMapper();
+        return iUserRepository.findProductsBetweenPrice(minPrice, maxPrice)
+                .stream()
+                .map(post -> mapper.convertValue(post, PostDto.class))
+                .toList();
     }
 }

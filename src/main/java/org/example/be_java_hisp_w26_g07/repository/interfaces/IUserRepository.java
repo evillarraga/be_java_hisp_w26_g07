@@ -18,4 +18,7 @@ public interface IUserRepository {
 
     List<Post> findProductByFollow(User user);
 
+    List<Post> findPostPromotionByUserId(Integer userId);
+
+    List<Post> findProductsBetweenPrice(Double minPrice, Double maxPrice);
 }
