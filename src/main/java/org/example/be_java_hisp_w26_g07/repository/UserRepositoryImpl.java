@@ -51,10 +51,14 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public Boolean addFollowerById(Integer id, Integer userToFollow) {
         User user = findById(id);
+        User seller = findById(userToFollow);
         List<Integer> newFollows = new ArrayList<>(user.getFollowerIds());
         newFollows.add(userToFollow);
-        newFollows.forEach(System.out::println);
         user.setFollowerIds(newFollows);
+
+        List<Integer> sellerFollowed = new ArrayList<>(seller.getFollowedIds());
+        sellerFollowed.add(id);
+        seller.setFollowedIds(sellerFollowed);
         return true;
     }
 
