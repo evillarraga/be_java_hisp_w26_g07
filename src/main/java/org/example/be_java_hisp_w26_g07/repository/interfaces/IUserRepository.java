@@ -18,4 +18,6 @@ public interface IUserRepository {
 
     List<Post> findProductByFollow(User user);
 
+
+
 }
