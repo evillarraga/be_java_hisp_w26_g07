@@ -14,7 +14,7 @@ public interface IUserRepository {
 
     Boolean userFollowSeller(Integer id, Integer userToFollow);
 
-    boolean unfollow(User user, Integer followerId);
+    boolean unfollow(User user, User sellerUser);
 
     List<Post> findProductByFollow(User user);
 
