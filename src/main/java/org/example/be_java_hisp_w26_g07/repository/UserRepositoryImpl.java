@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -121,5 +119,18 @@ public class UserRepositoryImpl implements IUserRepository {
                 .flatMap(List::stream)
                 .sorted(Comparator.comparing(Post::getPrice))
                 .toList();
+    }
+
+    @Override
+    public Map<String, Integer> findCategoryProducts() {
+        Map<String, Integer> total = new HashMap<>();
+        findAll().stream().map(User::getPosts).flatMap(List::stream).forEach(post -> {
+            if (total.containsKey(post.getCategory())) {
+                total.put(post.getCategory(), total.get(post.getCategory()) + 1);
+            } else {
+                total.put(post.getCategory(), 1);
+            }
+        });
+        return total;
     }
 }

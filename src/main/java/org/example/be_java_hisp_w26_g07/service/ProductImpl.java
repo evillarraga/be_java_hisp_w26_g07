@@ -1,10 +1,7 @@
 package org.example.be_java_hisp_w26_g07.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.be_java_hisp_w26_g07.dto.PostDto;
-import org.example.be_java_hisp_w26_g07.dto.PostRequestDto;
-import org.example.be_java_hisp_w26_g07.dto.PromoPostCountDto;
-import org.example.be_java_hisp_w26_g07.dto.PromotionPostDto;
+import org.example.be_java_hisp_w26_g07.dto.*;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
@@ -17,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -111,5 +110,15 @@ public class ProductImpl implements IProductService {
                 .stream()
                 .map(post -> mapper.convertValue(post, PostDto.class))
                 .toList();
+    }
+
+    @Override
+    public List<CategoryProductsDto> findCategoryProducts() {
+        Map<String, Integer> categoryId = iUserRepository.findCategoryProducts();
+        List<CategoryProductsDto> categoryProductsList = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : categoryId.entrySet()) {
+            categoryProductsList.add(new CategoryProductsDto(entry.getKey(), entry.getValue()));
+        }
+        return categoryProductsList;
     }
 }
