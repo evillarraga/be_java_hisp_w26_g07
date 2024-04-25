@@ -57,7 +57,7 @@ public class UserImpl implements IUserService {
                 .map(followedId -> iUserRepository.findById(followedId))
                 .map(followedUser -> new UserInfoFollowsDto(followedUser.getId(), followedUser.getName()));
         List<UserInfoFollowsDto> list;
-        if (order.equals("name_desc")) {
+        if (order != null && order.equals("name_desc")) {
             list = userInfoFollowsDtos.sorted(Comparator.comparing(UserInfoFollowsDto::getName).reversed())
                     .collect(Collectors.toList());
 
@@ -65,8 +65,6 @@ public class UserImpl implements IUserService {
             list = userInfoFollowsDtos.sorted(Comparator.comparing(UserInfoFollowsDto::getName))
                     .collect(Collectors.toList());
         }
-
-
         return new FollowedResponseDto(id, user.getName(), list);
 
     }
