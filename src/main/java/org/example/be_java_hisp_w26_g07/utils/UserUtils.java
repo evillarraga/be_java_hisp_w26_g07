@@ -9,13 +9,13 @@ import java.util.List;
 public class UserUtils {
     public static List<UserInfoFollowsDto> getUserInfoFollowsDtoByOrder(List<UserInfoFollowsDto> userInfoFollowsDto,
                                                                         String order) {
-        List<UserInfoFollowsDto> tempUserInfoFollowsDto = new ArrayList<>(userInfoFollowsDto);
+        if (order == null) return userInfoFollowsDto;
         return switch (order) {
             case "name_asc" ->
-                    tempUserInfoFollowsDto.stream().sorted(Comparator.comparing(UserInfoFollowsDto::getName)).toList();
+                    userInfoFollowsDto.stream().sorted(Comparator.comparing(UserInfoFollowsDto::getName)).toList();
             case "name_desc" ->
-                    tempUserInfoFollowsDto.stream().sorted(Comparator.comparing(UserInfoFollowsDto::getName).reversed()).toList();
-            default -> tempUserInfoFollowsDto;
+                    userInfoFollowsDto.stream().sorted(Comparator.comparing(UserInfoFollowsDto::getName).reversed()).toList();
+            default -> userInfoFollowsDto;
         };
     }
 }

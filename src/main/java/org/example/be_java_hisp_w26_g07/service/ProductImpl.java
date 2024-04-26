@@ -23,14 +23,6 @@ public class ProductImpl implements IProductService {
 
     private final IUserRepository iUserRepository;
 
-    private List<Post> getPostOrderByDate(List<Post> postList, String order) {
-        return switch (order) {
-            case "date_asc" -> postList.stream().sorted(Comparator.comparing(Post::getDate)).toList();
-            case "date_desc" -> postList.stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
-            default -> postList;
-        };
-    }
-
     public ProductImpl(@Autowired IUserRepository iUserRepository) {
         this.iUserRepository = iUserRepository;
     }
@@ -42,7 +34,7 @@ public class ProductImpl implements IProductService {
         if (postsList.isEmpty()) {
             throw new NotFoundException("No se encontraron publicaciones para las ultimas dos semanas.");
         }
-        return getPostOrderByDate(postsList, order).stream()
+        return PostUtil.getPostOrderByDate(postsList, order).stream()
                 .map(post -> mapper.convertValue(post, PostDto.class))
                 .collect(Collectors.toList());
     }
