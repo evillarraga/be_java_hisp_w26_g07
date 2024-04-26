@@ -1,5 +1,8 @@
 # Social MELI
 ## Diagrama
+
+![DiseñoRedSocialSocialMeli drawio (1)](https://github.com/evillarraga/be_java_hisp_w26_g07/assets/166527186/15944d5e-ce1e-4533-b472-fd4cfcf864d9)
+
 ## Endpoints
 ### US 0001
 Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
