@@ -28,7 +28,7 @@ public class PostDto {
     @JsonProperty("product")
     private ProductDto product;
     @JsonProperty("category")
-    private String category;
+    private Integer category;
     @JsonProperty("price")
     private Double price;
 }
