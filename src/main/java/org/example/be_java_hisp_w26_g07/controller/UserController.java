@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<CountFollowersResponseDto> numberOfSellersFollowed(@PathVariable String userId) {
+    public ResponseEntity<CountFollowersResponseDto> numberOfSellersFollowed(@PathVariable Integer userId) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getNumberOfSellersFollowed(userId));
     }
 

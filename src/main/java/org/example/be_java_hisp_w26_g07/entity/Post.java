@@ -1,5 +1,6 @@
 package org.example.be_java_hisp_w26_g07.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -15,12 +16,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
-
     @JsonProperty("user_id")
     private Integer userId;
     @JsonProperty("post_id")
     private Integer id;
     @JsonProperty("date")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
@@ -30,5 +31,4 @@ public class Post {
     private Integer category;
     @JsonProperty("price")
     private Double price;
-
 }

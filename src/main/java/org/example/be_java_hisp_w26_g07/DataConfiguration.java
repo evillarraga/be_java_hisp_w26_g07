@@ -25,12 +25,12 @@ public class DataConfiguration {
         LocalDate date2 = LocalDate.of(2023, 11, 16);
         LocalDate date3 = LocalDate.of(2023, 12, 17);
         LocalDate date4 = LocalDate.of(2023, 11, 18);
-        LocalDate date5 = LocalDate.of(2024, 03, 03);
-        LocalDate date6 = LocalDate.of(2024, 04, 04);
-        LocalDate date7 = LocalDate.of(2024, 04, 21);
-        LocalDate date8 = LocalDate.of(2024, 04, 22);
+        LocalDate date5 = LocalDate.of(2024, 3, 3);
+        LocalDate date6 = LocalDate.of(2024, 4, 4);
+        LocalDate date7 = LocalDate.of(2024, 4, 21);
+        LocalDate date8 = LocalDate.of(2024, 4, 22);
         LocalDate date9 = LocalDate.of(2023, 11, 23);
-        LocalDate date10 = LocalDate.of(2024, 04, 24);
+        LocalDate date10 = LocalDate.of(2024, 4, 24);
 
         Post post1 = new Post(1, 1, date1, new Product(1, "Chair", "Furniture", "Furniture Co.", "Brown", "Comfortable chair for home or office"), 1, 99.99);
         Post post2 = new Post(1, 2, date2, new Product(2, "Desk", "Furniture", "Furniture Co.", "Black", "Sturdy desk for work or study"), 2, 199.99);
@@ -72,24 +72,5 @@ public class DataConfiguration {
         users.add(new User(9, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), false));
 
         return users;
-    }
-
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-
-        return builder -> {
-
-            // formatter
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-            // deserializers
-            builder.deserializers(new LocalDateDeserializer(dateFormatter));
-            builder.deserializers(new LocalDateTimeDeserializer(dateTimeFormatter));
-
-            // serializers
-            builder.serializers(new LocalDateSerializer(dateFormatter));
-            builder.serializers(new LocalDateTimeSerializer(dateTimeFormatter));
-        };
     }
 }

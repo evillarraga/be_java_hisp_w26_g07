@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
-
     @JsonProperty("category_id")
     private String id;
     @JsonProperty("description")
