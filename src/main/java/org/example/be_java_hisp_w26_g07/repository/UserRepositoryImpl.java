@@ -72,7 +72,6 @@ public class UserRepositoryImpl implements IUserRepository {
                     .toList();
             posts.addAll(postsRecently);
         }
-
         return posts;
     }
 

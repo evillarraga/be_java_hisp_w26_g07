@@ -14,7 +14,6 @@ import org.example.be_java_hisp_w26_g07.utils.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,24 +34,9 @@ public class ProductImpl implements IProductService {
         if (postsList.isEmpty()) {
             throw new NotFoundException("No se encontraron publicaciones para las ultimas dos semanas.");
         }
-        getPostOrderByDate(postsList, order);
-        return postsList.stream()
+        return PostUtil.getPostOrderByDate(postsList, order).stream()
                 .map(post -> mapper.convertValue(post, PostDto.class))
                 .collect(Collectors.toList());
-    }
-
-    private void getPostOrderByDate(List<Post> postList,
-                                    String order) {
-        if (order == null) return;
-        switch (order) {
-            case "date_asc":
-                postList.sort(Comparator.comparing(Post::getDate));
-                break;
-            case "date_desc":
-                postList.sort(Comparator.comparing(Post::getDate).reversed());
-                break;
-            default:
-        }
     }
 
     @Override

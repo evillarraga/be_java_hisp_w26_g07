@@ -12,7 +12,7 @@ public interface IUserService {
 
     FollowersResponseDto findFollowersByOrder(Integer userId, String order);
 
-    CountFollowersResponseDto getNumberOfSellersFollowed(String userId);
+    CountFollowersResponseDto getNumberOfSellersFollowed(Integer userId);
 
     SuccessResponseDto unfollow(Integer userId, Integer userIdToUnfollow);
 }
