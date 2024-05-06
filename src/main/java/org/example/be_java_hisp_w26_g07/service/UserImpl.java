@@ -1,6 +1,10 @@
 package org.example.be_java_hisp_w26_g07.service;
 
 import org.example.be_java_hisp_w26_g07.dto.*;
+import org.example.be_java_hisp_w26_g07.dto.users.CountFollowersResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.users.FollowedResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.users.FollowersResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.users.UserInfoFollowsDto;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.exception.NotAcceptable;

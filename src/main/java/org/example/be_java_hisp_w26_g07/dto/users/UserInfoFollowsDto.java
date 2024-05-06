@@ -1,4 +1,4 @@
-package org.example.be_java_hisp_w26_g07.dto;
+package org.example.be_java_hisp_w26_g07.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
