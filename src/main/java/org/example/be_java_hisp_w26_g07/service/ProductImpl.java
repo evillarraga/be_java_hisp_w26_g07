@@ -1,8 +1,8 @@
 package org.example.be_java_hisp_w26_g07.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.be_java_hisp_w26_g07.dto.PostDto;
-import org.example.be_java_hisp_w26_g07.dto.PostRequestDto;
+import org.example.be_java_hisp_w26_g07.dto.products.PostDto;
+import org.example.be_java_hisp_w26_g07.dto.products.PostRequestDto;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
@@ -14,7 +14,6 @@ import org.example.be_java_hisp_w26_g07.utils.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 

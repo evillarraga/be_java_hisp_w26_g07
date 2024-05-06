@@ -1,8 +1,7 @@
 package org.example.be_java_hisp_w26_g07.utils;
 
-import org.example.be_java_hisp_w26_g07.dto.UserInfoFollowsDto;
+import org.example.be_java_hisp_w26_g07.dto.users.UserInfoFollowsDto;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
