@@ -3,7 +3,9 @@ package org.example.be_java_hisp_w26_g07.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.be_java_hisp_w26_g07.dto.products.PostDto;
 import org.example.be_java_hisp_w26_g07.dto.products.PostRequestDto;
+import org.example.be_java_hisp_w26_g07.dto.products.ProductDto;
 import org.example.be_java_hisp_w26_g07.entity.Post;
+import org.example.be_java_hisp_w26_g07.entity.Product;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.exception.NotFoundException;
@@ -29,12 +31,25 @@ public class ProductImpl implements IProductService {
     @Override
     public List<PostDto> findProductByFollow(Integer userID, String order) {
         ObjectMapper mapper = new ObjectMapper();
-        List<Post> postsList = iUserRepository.findProductByFollow(iUserRepository.findById(userID));
+
+        User foundUser = iUserRepository.findById(userID);
+        if (foundUser == null) {
+            throw new BadRequestException("El usuario con id "+userID+" no existe");
+        }
+
+        List<Post> postsList = iUserRepository.findProductByFollow(foundUser);
         if (postsList.isEmpty()) {
             throw new NotFoundException("No se encontraron publicaciones para las ultimas dos semanas.");
         }
+
         return PostUtil.getPostOrderByDate(postsList, order).stream()
-                .map(post -> mapper.convertValue(post, PostDto.class))
+                .map(post -> {
+                    PostDto mappedPostDto = mapper.convertValue(post, PostDto.class);
+                    Product product = iUserRepository.findProductById(mappedPostDto.getId());
+                    ProductDto mappedProductDto = mapper.convertValue(product, ProductDto.class);
+                    mappedPostDto.setProduct(mappedProductDto);
+                    return mappedPostDto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -44,11 +59,26 @@ public class ProductImpl implements IProductService {
         if (myUser == null) {
             throw new BadRequestException("El usuario no existe");
         }
+
         ObjectMapper mapper = new ObjectMapper();
         Post post = mapper.convertValue(postRequestDto, Post.class);
         post.setId(PostUtil.increaseCounter());
-        myUser.getPosts().add(post);
-        myUser.setIsSeller(true);
-        return mapper.convertValue(post, PostDto.class);
+
+        Product product = mapper.convertValue(postRequestDto.getProduct(), Product.class);
+        Product foundProduct = iUserRepository.findProductById(product.getId());
+        if (foundProduct != null) {
+            throw new BadRequestException("Un producto con ese id ya existe, por favor actualice el id");
+        }
+
+        iUserRepository.createProduct(product);
+        post.setProductId(product.getId());
+
+        iUserRepository.addPost(post);
+        if (!myUser.getIsSeller()) myUser.setIsSeller(true);
+
+        PostDto createdPost = mapper.convertValue(post, PostDto.class);
+        ProductDto createdProduct = mapper.convertValue(product, ProductDto.class);
+        createdPost.setProduct(createdProduct);
+        return createdPost;
     }
 }
