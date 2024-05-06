@@ -3,6 +3,119 @@
 
 ![DiseñoRedSocialSocialMeli drawio (1)](https://github.com/evillarraga/be_java_hisp_w26_g07/assets/166527186/15944d5e-ce1e-4533-b472-fd4cfcf864d9)
 
+## Estimación
+<table>
+<thead> 
+<td>
+# T
+</td>
+<td>
+Responsable
+</td>
+<td>
+Tiempo hrs
+</td>
+</thead>
+<tbody>
+<tr>
+<td>
+T 0001
+</td>
+<td>
+Brayan Torres
+</td>
+<td>
+3
+</td>
+</tr>
+
+<tr>
+<td>
+T 0002
+</td>
+<td>
+Edwin Villarraga
+</td>
+<td>
+3
+</td>
+</tr>
+
+<tr>
+<td>
+T 0003
+</td>
+<td>
+Cristian Torres
+</td>
+<td>
+3
+</td>
+</tr>
+
+<tr>
+<td>
+T 0004
+</td>
+<td>
+Monica Lopez
+</td>
+<td>
+3
+</td>
+</tr>
+
+<tr>
+<td>
+T 0005
+</td>
+<td>
+Cristopher Vargas
+</td>
+<td>
+3
+</td>
+</tr>
+
+<tr>
+<td>
+T 0006
+</td>
+<td>
+Brayann Torres
+</td>
+<td>
+3
+</td>
+</tr>
+
+<tr>
+<td>
+T 0007
+</td>
+<td>
+Carlos Cardozo
+</td>
+<td>
+3
+</td>
+</tr>
+
+<tr>
+<td>
+T 0008
+</td>
+<td>
+Santiago Buitrago
+</td>
+<td>
+3
+</td>
+</tr>
+
+</tbody>
+</table>
+
 ## Endpoints
 ### US 0001
 Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
@@ -14,8 +127,8 @@ Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Post</td>
-      <td align="center"> /users/:userId/follow/:userIdToFollow </td>
+      <td>Post</td>
+      <td> /users/:userId/follow/:userIdToFollow </td>
       <td>
         <ul>
           <li>200 (Todo OK)</li>
@@ -36,8 +149,8 @@ Obtener el resultado de la cantidad de usuarios que siguen a un determinado vend
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center"> /users/:userId/followers/count </td>
+      <td>Get</td>
+      <td> /users/:userId/followers/count </td>
 <td>
   
 ```json
@@ -62,8 +175,8 @@ Obtener un listado de todos los usuarios que siguen a un determinado vendedor (�
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center"> /users/:userId/followers/list </td>
+      <td>Get</td>
+      <td> /users/:userId/followers/list </td>
 <td>
   
 ```json
@@ -101,8 +214,8 @@ Obtener  un listado de todos los vendedores a los cuales sigue un determinado us
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center"> /users/:userId/followed/list </td>
+      <td>Get</td>
+      <td> /users/:userId/followed/list </td>
 <td>
   
 ```json
@@ -141,8 +254,8 @@ Dar de alta una nueva publicación
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Post</td>
-      <td align="center"> /products/post </td>
+      <td>Post</td>
+      <td> /products/post </td>
 <td>
   
 ```json
@@ -162,7 +275,7 @@ Dar de alta una nueva publicación
 }
 ```
 </td>
-    <td align="center">
+    <td>
         <ul>
           <li>200 (Todo OK)</li>
           <li>400 (Bad Request)</li>
@@ -182,8 +295,8 @@ Obtener un listado de las publicaciones realizadas por los vendedores que un usu
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center"> /products/followed/:userId/list </td>
+      <td>Get</td>
+      <td> /products/followed/:userId/list </td>
 <td>
   
 ```json
@@ -237,8 +350,8 @@ Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado v
       <th>Url</th>
     </tr>
     <tr>
-      <td align="center">Post</td>
-      <td align="center"> /users/:userId/unfollow/:userIdToUnfollow </td>
+      <td>Post</td>
+      <td> /users/:userId/unfollow/:userIdToUnfollow </td>
     </tr>
   </tbody>
 </table>
@@ -252,8 +365,8 @@ Ordenamiento alfabético ascendente y descendente
       <th>Url</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center">
+      <td>Get</td>
+      <td>
         <ul>
           <li> /users/:userId/followers/list?order=name_asc </li>
           <li> /users/:userId/followers/list?order=name_desc </li>
@@ -272,8 +385,8 @@ Ordenamiento por fecha ascendente y descendente
       <th>Url</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center">
+      <td>Get</td>
+      <td>
         <ul>
           <li> /products/followed/:userId/list?order=date_asc </li>
           <li> /products/followed/:userId/list?order=date_desc </li>
@@ -294,8 +407,8 @@ Llevar a cabo la publicación de un nuevo producto en promoción
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Post</td>
-      <td align="center"> /products/promo-post </td>
+      <td>Post</td>
+      <td> /products/promo-post </td>
 <td>
   
 ```json
@@ -317,7 +430,7 @@ Llevar a cabo la publicación de un nuevo producto en promoción
 }
 ```
 </td>
-    <td align="center">
+    <td>
         <ul>
           <li>200 (Todo OK)</li>
           <li>400 (Bad Request)</li>
@@ -338,8 +451,8 @@ Obtener la cantidad de productos en promoción de un determinado vendedor
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center"> /products/promo-post/count?user_id={userId} </td>
+      <td>Get</td>
+      <td> /products/promo-post/count?user_id={userId} </td>
 <td>
   
 ```json
@@ -365,8 +478,8 @@ Obtener un listado de todos los productos en promoción de un determinado vended
       <th>Response</th>
     </tr>
     <tr>
-      <td align="center">Get</td>
-      <td align="center"> /products/promo-post/list?user_id={userId} </td>
+      <td>Get</td>
+      <td> /products/promo-post/list?user_id={userId} </td>
 <td>
   
 ```json
