@@ -26,9 +26,9 @@ public class Post {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
     @JsonProperty("product")
-    private Product product;
+    private Integer productId;
     @JsonProperty("category")
-    private Integer category;
+    private Integer categoryId;
     @JsonProperty("price")
     private Double price;
 }
