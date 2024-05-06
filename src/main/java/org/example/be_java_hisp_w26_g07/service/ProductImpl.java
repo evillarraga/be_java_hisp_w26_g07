@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.be_java_hisp_w26_g07.dto.products.PostDto;
 import org.example.be_java_hisp_w26_g07.dto.products.PostRequestDto;
 import org.example.be_java_hisp_w26_g07.dto.products.ProductDto;
+import org.example.be_java_hisp_w26_g07.dto.products.SimplePostDto;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.Product;
 import org.example.be_java_hisp_w26_g07.entity.User;
@@ -45,7 +46,7 @@ public class ProductImpl implements IProductService {
         return PostUtil.getPostOrderByDate(postsList, order).stream()
                 .map(post -> {
                     PostDto mappedPostDto = mapper.convertValue(post, PostDto.class);
-                    Product product = iUserRepository.findProductById(mappedPostDto.getId());
+                    Product product = iUserRepository.findProductById(post.getProductId());
                     ProductDto mappedProductDto = mapper.convertValue(product, ProductDto.class);
                     mappedPostDto.setProduct(mappedProductDto);
                     return mappedPostDto;
@@ -61,7 +62,8 @@ public class ProductImpl implements IProductService {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        Post post = mapper.convertValue(postRequestDto, Post.class);
+        SimplePostDto simplePostDto = mapper.convertValue(postRequestDto, SimplePostDto.class);
+        Post post = mapper.convertValue(simplePostDto, Post.class);
         post.setId(PostUtil.increaseCounter());
 
         Product product = mapper.convertValue(postRequestDto.getProduct(), Product.class);
