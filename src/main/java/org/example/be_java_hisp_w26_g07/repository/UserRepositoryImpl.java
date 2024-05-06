@@ -77,7 +77,7 @@ public class UserRepositoryImpl implements IUserRepository {
     public List<Integer> followerIdBySellerId(Integer sellerId) {
         return followersList.stream()
                 .filter(f -> f.getSellerId().equals(sellerId))
-                .mapToInt(Followers::getSellerId)
+                .mapToInt(Followers::getUserId)
                 .boxed().toList();
     }
 
