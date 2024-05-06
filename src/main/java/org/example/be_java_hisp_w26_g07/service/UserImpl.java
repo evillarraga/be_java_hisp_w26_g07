@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserImpl implements IUserService {
@@ -50,7 +52,7 @@ public class UserImpl implements IUserService {
         if (!seller.getIsSeller()) {
             throw new BadRequestException("El usuario a seguir con el id " + sellerId + " no es vendedor");
         }
-        if (iUserRepository.userFollowSeller(userId, sellerId)) return false;
+        if (iUserRepository.userFollowSeller(userId, sellerId)) throw new BadRequestException("El usuario ya se encuentra siguendo a este vendedor");
         iUserRepository.addFollowerById(userId, sellerId);
         return true;
     }
@@ -59,14 +61,17 @@ public class UserImpl implements IUserService {
     public FollowedResponseDto findFollowedUsers(Integer id, String order) {
         User user = iUserRepository.findById(id);
         if (user == null) throw new NotFoundException("Vendedor no encontrado");
-        List<UserInfoFollowsDto> userInfoFollowsDtos = user.getFollowedIds()
+
+        List<Integer> followedIdList = iUserRepository.followedIdByUserId(id);
+
+        List<UserInfoFollowsDto> userInfoFollowsDtoList = followedIdList
                 .stream()
-                .map(followedId -> {
-                    User current = iUserRepository.findById(followedId);
-                    return new UserInfoFollowsDto(current.getId(), current.getName());
-                }).toList();
-        UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDtos, order);
-        return new FollowedResponseDto(id, user.getName(), userInfoFollowsDtos);
+                .map(iUserRepository::findById)
+                .map(followedUser -> new UserInfoFollowsDto(followedUser.getId(), followedUser.getName()))
+                .toList();
+
+        List<UserInfoFollowsDto> orderedList = UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDtoList, order);
+        return new FollowedResponseDto(id, user.getName(), orderedList);
     }
 
     @Override
@@ -74,11 +79,17 @@ public class UserImpl implements IUserService {
         User seller = iUserRepository.findById(userId);
         if (seller == null) throw new NotFoundException("Vendedor no encontrado");
         if (!seller.getIsSeller()) throw new BadRequestException("El usuario no es un vendedor");
-        List<UserInfoFollowsDto> userInfoFollowsDto = getUserInfoFollowers(seller.getFollowerIds());
+
+        List<Integer> followerIdList = iUserRepository.followerIdBySellerId(userId);
+
+        List<UserInfoFollowsDto> userInfoFollowsDto = getUserInfoFollowers(followerIdList);
+
+        List<UserInfoFollowsDto> orderedList = UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDto, order);
+
         return new FollowersResponseDto(
                 seller.getId(),
                 seller.getName(),
-                UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDto, order)
+                orderedList
         );
     }
 
@@ -87,7 +98,10 @@ public class UserImpl implements IUserService {
         User user = iUserRepository.findById(userId);
         if (user == null) throw new NotFoundException("Usuario no encontrado");
         if (!user.getIsSeller()) throw new NotAcceptable("Existe el usuario pero no es vendedor");
-        return new CountFollowersResponseDto(user.getId(), user.getName(), user.getFollowerIds().size());
+
+        List<Integer> followerIdList = iUserRepository.followerIdBySellerId(userId);
+        int followerCount = followerIdList == null ? 0 : followerIdList.size();
+        return new CountFollowersResponseDto(user.getId(), user.getName(), followerCount);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.example.be_java_hisp_w26_g07.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
