@@ -14,6 +14,7 @@ import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRepository;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IProductService;
 
 import org.example.be_java_hisp_w26_g07.utils.PostUtil;
+import org.example.be_java_hisp_w26_g07.utils.UserMessageError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +59,7 @@ public class ProductImpl implements IProductService {
     public PostDto createPost(PostRequestDto postRequestDto) {
         User myUser = iUserRepository.findById(postRequestDto.getUserId());
         if (myUser == null) {
-            throw new BadRequestException("El usuario no existe");
+            throw new BadRequestException(UserMessageError.CLIENT_NOT_FOUND.getMessage(postRequestDto.getUserId()));
         }
 
         ObjectMapper mapper = new ObjectMapper();

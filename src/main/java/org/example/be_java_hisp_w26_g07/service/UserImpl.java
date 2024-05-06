@@ -11,6 +11,7 @@ import org.example.be_java_hisp_w26_g07.exception.NotAcceptable;
 import org.example.be_java_hisp_w26_g07.exception.NotFoundException;
 import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRepository;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
+import org.example.be_java_hisp_w26_g07.utils.UserMessageError;
 import org.example.be_java_hisp_w26_g07.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +48,12 @@ public class UserImpl implements IUserService {
     public Boolean userFollowSeller(Integer userId, Integer sellerId) {
         User seller = iUserRepository.findById(sellerId);
         User follower = iUserRepository.findById(userId);
-        if (userId.equals(sellerId)) throw new BadRequestException("El id del usuario no puede ser igual al vendedor");
-        if (seller == null || follower == null) throw new BadRequestException("El usuario o vendedor no existe");
-        if (!seller.getIsSeller()) {
-            throw new BadRequestException("El usuario a seguir con el id " + sellerId + " no es vendedor");
-        }
+        if (userId.equals(sellerId))
+            throw new BadRequestException(UserMessageError.ID_CLIENT_SELLER_IS_EQUALS.getMessage());
+        if (follower == null) throw new BadRequestException(UserMessageError.CLIENT_NOT_FOUND.getMessage(userId));
+        if (seller == null) throw new BadRequestException(UserMessageError.SELLER_NOT_FOUND.getMessage(sellerId));
+        if (!seller.getIsSeller()) throw new BadRequestException(UserMessageError.CLIENT_IS_NOT_SELLER.getMessage());
+
         if (iUserRepository.userFollowSeller(userId, sellerId)) throw new BadRequestException("El usuario ya se encuentra siguendo a este vendedor");
         iUserRepository.addFollowerById(userId, sellerId);
         return true;
@@ -60,45 +62,37 @@ public class UserImpl implements IUserService {
     @Override
     public FollowedResponseDto findFollowedUsers(Integer id, String order) {
         User user = iUserRepository.findById(id);
-        if (user == null) throw new NotFoundException("Vendedor no encontrado");
-
+        if (user == null) throw new NotFoundException(UserMessageError.SELLER_NOT_FOUND.getMessage(id));
         List<Integer> followedIdList = iUserRepository.followedIdByUserId(id);
-
-        List<UserInfoFollowsDto> userInfoFollowsDtoList = followedIdList
+        List<UserInfoFollowsDto> userInfoFollowsDtos = followedIdList
                 .stream()
-                .map(iUserRepository::findById)
-                .map(followedUser -> new UserInfoFollowsDto(followedUser.getId(), followedUser.getName()))
-                .toList();
-
-        List<UserInfoFollowsDto> orderedList = UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDtoList, order);
+                .map(followedId -> {
+                    User current = iUserRepository.findById(followedId);
+                    return new UserInfoFollowsDto(current.getId(), current.getName());
+                }).toList();
+        List<UserInfoFollowsDto> orderedList = UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDtos, order);
         return new FollowedResponseDto(id, user.getName(), orderedList);
     }
 
     @Override
     public FollowersResponseDto findFollowersByOrder(Integer userId, String order) {
         User seller = iUserRepository.findById(userId);
-        if (seller == null) throw new NotFoundException("Vendedor no encontrado");
-        if (!seller.getIsSeller()) throw new BadRequestException("El usuario no es un vendedor");
-
+        if (seller == null) throw new NotFoundException(UserMessageError.SELLER_NOT_FOUND.getMessage(userId));
+        if (!seller.getIsSeller()) throw new BadRequestException(UserMessageError.CLIENT_IS_NOT_SELLER.getMessage());
         List<Integer> followerIdList = iUserRepository.followerIdBySellerId(userId);
-
         List<UserInfoFollowsDto> userInfoFollowsDto = getUserInfoFollowers(followerIdList);
-
-        List<UserInfoFollowsDto> orderedList = UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDto, order);
-
         return new FollowersResponseDto(
                 seller.getId(),
                 seller.getName(),
-                orderedList
+                UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDto, order)
         );
     }
 
     @Override
     public CountFollowersResponseDto getNumberOfSellersFollowed(Integer userId) {
         User user = iUserRepository.findById(userId);
-        if (user == null) throw new NotFoundException("Usuario no encontrado");
-        if (!user.getIsSeller()) throw new NotAcceptable("Existe el usuario pero no es vendedor");
-
+        if (user == null) throw new NotFoundException(UserMessageError.CLIENT_NOT_FOUND.getMessage(userId));
+        if (!user.getIsSeller()) throw new NotAcceptable(UserMessageError.CLIENT_IS_NOT_SELLER.getMessage());
         List<Integer> followerIdList = iUserRepository.followerIdBySellerId(userId);
         int followerCount = followerIdList == null ? 0 : followerIdList.size();
         return new CountFollowersResponseDto(user.getId(), user.getName(), followerCount);
@@ -108,10 +102,9 @@ public class UserImpl implements IUserService {
     public SuccessResponseDto unfollow(Integer userId, Integer userIdToUnfollow) {
         User followerUser = iUserRepository.findById(userId);
         User sellerUser = iUserRepository.findById(userIdToUnfollow);
-        if (followerUser == null || sellerUser == null) {
-            Integer idNotFound = followerUser == null ? userId : userIdToUnfollow;
-            String errorMsg = String.format("El usuario con el id %s no fue encontrado", idNotFound);
-            throw new NotFoundException(errorMsg);
+        if (followerUser == null) throw new BadRequestException(UserMessageError.CLIENT_NOT_FOUND.getMessage(userId));
+        if (sellerUser == null) {
+            throw new BadRequestException(UserMessageError.SELLER_NOT_FOUND.getMessage(userIdToUnfollow));
         }
         boolean followDeleted = iUserRepository.unfollow(followerUser, sellerUser);
         if (!followDeleted) {
