@@ -8,6 +8,7 @@ public enum UserMessageError {
     SELLER_NOT_FOUND("Vendedor con id %d no encontrado"),
     CLIENT_IS_NOT_SELLER("Existe el usuario pero no es vendedor"),
     ID_CLIENT_SELLER_IS_EQUALS("El id del usuario no puede ser igual al vendedor"),
+    LIST_CLIENTE_ORDER("Orden de la lista no valido, orden validos: name_asc o name_desc"),
     LIST_CLIENT_NOT_FOUND(""),
     LIST_SELLER_NOT_FOUND(""),
     LIST_POST_NOT_FOUND("");

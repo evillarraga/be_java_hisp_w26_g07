@@ -126,4 +126,21 @@ public class DataGeneratorTest {
         }
         return postHashMap;
     }
+
+    public static List<Post> getListOfSellersLastTwoWeeks() {
+        LocalDate date1 = LocalDate.of(2023, 5, 7);
+        LocalDate date2 = LocalDate.of(2023, 5, 6);
+        LocalDate date3 = LocalDate.of(2023, 5, 8);
+        LocalDate date4 = LocalDate.of(2023, 5, 5);
+
+        List<Post> postList = List.of(
+                new Post(1, 1, date1, 1, 1, 99.99),
+                new Post(1, 2, date2, 2, 1, 199.99),
+                new Post(1, 3, date3, 3, 1, 499.99),
+                new Post(1, 4, date4, 4, 2, 29.99)
+        );
+
+        return postList;
+    }
+
 }

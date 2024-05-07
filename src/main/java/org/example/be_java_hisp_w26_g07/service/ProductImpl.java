@@ -15,6 +15,7 @@ import org.example.be_java_hisp_w26_g07.service.interfaces.IProductService;
 
 import org.example.be_java_hisp_w26_g07.utils.PostUtil;
 import org.example.be_java_hisp_w26_g07.utils.UserMessageError;
+import org.example.be_java_hisp_w26_g07.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,10 @@ public class ProductImpl implements IProductService {
     @Override
     public List<PostDto> findProductByFollow(Integer userID, String order) {
         ObjectMapper mapper = new ObjectMapper();
+
+        if (!PostUtil.orderValidation(order)) {
+            throw new BadRequestException(UserMessageError.LIST_CLIENTE_ORDER.getMessage());
+        }
 
         User foundUser = iUserRepository.findById(userID);
         if (foundUser == null) {

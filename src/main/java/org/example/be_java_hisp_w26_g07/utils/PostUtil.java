@@ -4,6 +4,7 @@ import org.example.be_java_hisp_w26_g07.entity.Post;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class PostUtil {
     private static int counter = 11;
@@ -12,6 +13,8 @@ public class PostUtil {
         return counter++;
     }
 
+    public static final Set<String> listOrder = Set.of("date_asc", "date_desc");
+
     public static List<Post> getPostOrderByDate(List<Post> postList, String order) {
         if (order == null) return postList;
         return switch (order) {
@@ -19,5 +22,10 @@ public class PostUtil {
             case "date_desc" -> postList.stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
             default -> postList;
         };
+    }
+
+    public static Boolean orderValidation(String order) {
+        if (listOrder.contains(order.toLowerCase())) return true;
+        return false;
     }
 }
