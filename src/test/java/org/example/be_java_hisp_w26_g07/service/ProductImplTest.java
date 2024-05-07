@@ -31,8 +31,6 @@ class ProductImplTest {
 
     @InjectMocks
     private ProductImpl productImpl;
-    @InjectMocks
-    private ProductImpl productImpl;
 
     @DisplayName("T-0005 - Verificar que el tipo de ordenamiento por fecha exista (US-0009) date_asc")
     @Test
