@@ -23,13 +23,13 @@ public class DataConfiguration {
     public List<User> getUsers() {
         LocalDate date1 = LocalDate.of(2023, 11, 15);
         LocalDate date2 = LocalDate.of(2023, 11, 16);
-        LocalDate date3 = LocalDate.of(2023, 12, 17);
+        LocalDate date3 = LocalDate.of(2023, 5, 4);
         LocalDate date4 = LocalDate.of(2023, 11, 18);
-        LocalDate date5 = LocalDate.of(2024, 3, 3);
-        LocalDate date6 = LocalDate.of(2024, 4, 4);
-        LocalDate date7 = LocalDate.of(2024, 4, 21);
-        LocalDate date8 = LocalDate.of(2024, 4, 22);
-        LocalDate date9 = LocalDate.of(2023, 11, 23);
+        LocalDate date5 = LocalDate.of(2024, 3, 5);
+        LocalDate date6 = LocalDate.of(2024, 5, 4);
+        LocalDate date7 = LocalDate.of(2024, 5, 6);
+        LocalDate date8 = LocalDate.of(2024, 5, 7);
+        LocalDate date9 = LocalDate.of(2023, 5, 6);
         LocalDate date10 = LocalDate.of(2024, 4, 24);
 
         Post post1 = new Post(1, 1, date1, new Product(1, "Chair", "Furniture", "Furniture Co.", "Brown", "Comfortable chair for home or office"), 1, 99.99);
