@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Category {
     @JsonProperty("category_id")
-    private Integer id;
+    private String id;
     @JsonProperty("description")
     private String description;
 }

@@ -3,7 +3,6 @@ package org.example.be_java_hisp_w26_g07.exception;
 import jakarta.validation.ConstraintViolationException;
 import org.example.be_java_hisp_w26_g07.dto.errors.ExceptionDto;
 import org.example.be_java_hisp_w26_g07.dto.errors.ValidErrorDto;
-import org.example.be_java_hisp_w26_g07.utils.Validate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

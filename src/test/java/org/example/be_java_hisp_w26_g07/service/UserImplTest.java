@@ -1,10 +1,13 @@
 package org.example.be_java_hisp_w26_g07.service;
 
+
 import org.example.be_java_hisp_w26_g07.dto.users.CountFollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.NotAcceptable;
 import org.example.be_java_hisp_w26_g07.exception.NotFoundException;
-import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRepository;
+import org.example.be_java_hisp_w26_g07.repository.UserRepositoryImpl;
+
+import org.example.be_java_hisp_w26_g07.utils.GeneratorDataTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,31 +15,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import org.example.be_java_hisp_w26_g07.repository.UserRepositoryImpl;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserImplTest {
-
     @Mock
-    IUserRepository iUserRepository;
+    private UserRepositoryImpl userRepository;
 
     @InjectMocks
-    UserImpl userService;
-
-    @Test
-    void userFollowSeller() {
-    }
-
-    @Test
-    void findFollowedUsers() {
-    }
-
-    @Test
-    void findFollowersByOrder() {
-    }
+    private UserImpl userImpl;
 
     @Test
     @DisplayName("T-0007 Verificar que la cantidad de seguidores de un determinado usuario sea correcta")
@@ -44,16 +36,15 @@ class UserImplTest {
         //Arrange
         //Creación de usuario y id´s de seguidores que pertenecen al vendedor
         Integer userId = 1;
-        User userMock = new User(userId, "Juan", true);
-        List<Integer> followersIds = List.of(5,6,7,8,9);
+        User userMock = GeneratorDataTest.findUsers().get(0);
 
-        CountFollowersResponseDto expected = new CountFollowersResponseDto(userId, userMock.getName(), 5);
+        CountFollowersResponseDto expected = new CountFollowersResponseDto(userId, userMock.getName(),
+                userMock.getFollowerIds().size());
 
         //Act
-        when(iUserRepository.findById(userId)).thenReturn(userMock);
-        when(iUserRepository.followerIdBySellerId(userId)).thenReturn(followersIds);
+        when(userRepository.findById(userId)).thenReturn(userMock);
 
-        CountFollowersResponseDto output = userService.getNumberOfSellersFollowed(userId);
+        CountFollowersResponseDto output = userImpl.getNumberOfSellersFollowed(userId);
 
         //Assert
         assertEquals(expected, output);
@@ -66,8 +57,8 @@ class UserImplTest {
         Integer userId = 1;
 
         //Act and Assert
-        when(iUserRepository.findById(userId)).thenReturn(null);
-        assertThrows(NotFoundException.class,()->userService.getNumberOfSellersFollowed(userId));
+        when(userRepository.findById(userId)).thenReturn(null);
+        assertThrows(NotFoundException.class,()->userImpl.getNumberOfSellersFollowed(userId));
     }
 
     @Test
@@ -76,14 +67,10 @@ class UserImplTest {
         //Arrange
         //Creación de usuario que no es vendedor, propiedad isseller false
         Integer userId = 1;
-        User userMock = new User(userId, "Juan", false);
+        User userMock = new User(userId, "Juan", List.of(),List.of(),List.of(),false);
 
         //Act and Assert
-        when(iUserRepository.findById(userId)).thenReturn(userMock);
-        assertThrows(NotAcceptable.class,()->userService.getNumberOfSellersFollowed(userId));
-    }
-
-    @Test
-    void unfollow() {
+        when(userRepository.findById(userId)).thenReturn(userMock);
+        assertThrows(NotAcceptable.class,()->userImpl.getNumberOfSellersFollowed(userId));
     }
 }

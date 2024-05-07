@@ -1,26 +1,16 @@
-package org.example.be_java_hisp_w26_g07;
+package org.example.be_java_hisp_w26_g07.utils;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.Product;
 import org.example.be_java_hisp_w26_g07.entity.User;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
-public class DataConfiguration {
+public class GeneratorDataTest {
 
-    @Bean
-    public List<User> getUsers() {
+    public static List<User> findUsers() {
         LocalDate date1 = LocalDate.of(2023, 11, 15);
         LocalDate date2 = LocalDate.of(2023, 11, 16);
         LocalDate date3 = LocalDate.of(2023, 5, 4);
@@ -72,5 +62,22 @@ public class DataConfiguration {
         users.add(new User(9, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), false));
 
         return users;
+    }
+
+    public static List<Post> getListOfSellersLastTwoWeeks() {
+        LocalDate date1 = LocalDate.of(2023, 5, 7);
+        LocalDate date2 = LocalDate.of(2023, 5, 6);
+        LocalDate date3 = LocalDate.of(2023, 5, 8);
+        LocalDate date4 = LocalDate.of(2023, 5, 5);
+
+
+        List<Post> postList = List.of(
+                new Post(1, 1, date1, new Product(1, "Chair", "Furniture", "Furniture Co.", "Brown", "Comfortable chair for home or office"), 1, 99.99),
+                new Post(1, 2, date2, new Product(2, "Desk", "Furniture", "Furniture Co.", "Black", "Sturdy desk for work or study"), 2, 199.99),
+                new Post(1, 3, date3, new Product(3, "Sofa", "Furniture", "Furniture Co.", "Gray", "Modern sofa for living room"), 3, 499.99),
+                new Post(1, 4, date4, new Product(4, "Lamp", "Decor", "Decor Store", "White", "Elegant lamp for home decor"), 2, 29.99)
+        );
+
+        return postList;
     }
 }
