@@ -80,4 +80,29 @@ public class GeneratorDataTest {
 
         return postList;
     }
+
+    public static User getSellerUser() {
+        LocalDate date1 = LocalDate.of(2023, 11, 15);
+        LocalDate date2 = LocalDate.of(2023, 11, 16);
+        LocalDate date3 = LocalDate.of(2023, 5, 4);
+        LocalDate date4 = LocalDate.of(2023, 11, 18);
+
+        Post post1 = new Post(1, 1, date1, new Product(1, "Chair", "Furniture", "Furniture Co.", "Brown", "Comfortable chair for home or office"), 1, 99.99);
+        Post post2 = new Post(1, 2, date2, new Product(2, "Desk", "Furniture", "Furniture Co.", "Black", "Sturdy desk for work or study"), 2, 199.99);
+        Post post3 = new Post(1, 3, date3, new Product(3, "Sofa", "Furniture", "Furniture Co.", "Gray", "Modern sofa for living room"), 3, 499.99);
+        Post post4 = new Post(1, 4, date4, new Product(4, "Lamp", "Decor", "Decor Store", "White", "Elegant lamp for home decor"), 2, 29.99);
+
+        List<Post> lis1 = new ArrayList<>();
+
+        lis1.add(post1);
+        lis1.add(post2);
+        lis1.add(post3);
+        lis1.add(post4);
+
+        return new User(1, "Monica", lis1, List.of(2, 3, 4), List.of(2, 3, 4, 8, 9), true);
+    }
+
+    public static User getUserCustomId(Integer customId, Boolean isSeller) {
+        return new User(customId, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), isSeller);
+    }
 }
