@@ -20,7 +20,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 is user following seller")
+    @DisplayName("T-0001 el usuario esta siguiendo al vendedor")
     void userFollowSellerTest() {
         // Given - Arrange
         // When - Act
@@ -32,7 +32,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 add follow")
+    @DisplayName("T-0001 agregar follow")
     void addFollowerByIdTest() {
         // Given - Arrange
         // When - Act
