@@ -65,8 +65,7 @@ public class UserImpl implements IUserService {
                     User current = iUserRepository.findById(followedId);
                     return new UserInfoFollowsDto(current.getId(), current.getName());
                 }).toList();
-        UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDtos, order);
-        return new FollowedResponseDto(id, user.getName(), userInfoFollowsDtos);
+        return new FollowedResponseDto(id, user.getName(), UserUtils.getUserInfoFollowsDtoByOrder(userInfoFollowsDtos, order));
     }
 
     @Override
