@@ -3,6 +3,7 @@ package org.example.be_java_hisp_w26_g07.repository;
 import org.example.be_java_hisp_w26_g07.DataConfiguration;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -28,6 +29,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
+    @DisplayName("Encuentra usuario por su id y lo retorna correctamente")
     void findByIdTest() {
         //Arrange
         User expected = new User(1, "Monica Test", true);
@@ -40,6 +42,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
+    @DisplayName("Busca un usuario por id pero no existe y retorna null")
     void findByIdNullTest() {
         //Act
         User output = userRepository.findById(20);
@@ -56,6 +59,7 @@ class UserRepositoryImplTest {
     * */
 
     @Test
+    @DisplayName("Busca los seguidores de un vendedor por su id y retorna una lista con valores correctos")
     void followerIdBySellerIdTest() {
         //Arrange
         List<Integer> expected = List.of(2,3,4,8,9);
@@ -68,6 +72,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
+    @DisplayName("Busca los seguidores de un vendedor por su id pero retorna una lista vacía")
     void followerIdBySellerIdEmptyListTest() {
         //Arrange
         List<Integer> expected = List.of();
