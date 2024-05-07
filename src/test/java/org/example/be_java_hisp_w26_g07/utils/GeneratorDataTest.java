@@ -1,26 +1,16 @@
-package org.example.be_java_hisp_w26_g07;
+package org.example.be_java_hisp_w26_g07.utils;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.Product;
 import org.example.be_java_hisp_w26_g07.entity.User;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
-public class DataConfiguration {
+public class GeneratorDataTest {
 
-    @Bean
-    public List<User> getUsers() {
+    public static List<User> findUsers() {
         LocalDate date1 = LocalDate.of(2023, 11, 15);
         LocalDate date2 = LocalDate.of(2023, 11, 16);
         LocalDate date3 = LocalDate.of(2023, 12, 17);
