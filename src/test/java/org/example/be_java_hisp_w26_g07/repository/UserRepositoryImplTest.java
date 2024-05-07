@@ -1,32 +1,14 @@
 package org.example.be_java_hisp_w26_g07.repository;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.example.be_java_hisp_w26_g07.utils.GeneratorDataTest;
+import org.junit.jupiter.api.BeforeEach;
 
 class UserRepositoryImplTest {
 
-    @Test
-    void findById() {
-    }
+    private UserRepositoryImpl userRepository;
 
-    @Test
-    void findAll() {
-    }
-
-    @Test
-    void userFollowSeller() {
-    }
-
-    @Test
-    void addFollowerById() {
-    }
-
-    @Test
-    void findProductByFollow() {
-    }
-
-    @Test
-    void unfollow() {
+    @BeforeEach
+    void setUp() {
+        userRepository = new UserRepositoryImpl(GeneratorDataTest.findUsers());
     }
 }

@@ -1,28 +1,31 @@
 package org.example.be_java_hisp_w26_g07.controller;
 
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.example.be_java_hisp_w26_g07.service.UserImpl;
+import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@WebMvcTest(UserController.class)
 class UserControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Test
-    void follow() {
-    }
+    @MockBean
+    private IUserService userService;
 
-    @Test
-    void numberOfSellersFollowed() {
-    }
+    ObjectMapper objectMapper;
 
-    @Test
-    void listOfFollowersSellesrs() {
-    }
+    ObjectWriter objectWriter;
 
-    @Test
-    void followedList() {
-    }
-
-    @Test
-    void unfollow() {
+    @BeforeEach
+    void setUp() {
+        objectMapper = new ObjectMapper();
+        objectWriter = new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, false).writer();
     }
 }

@@ -8,9 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataGeneratorTest {
+public class GeneratorDataTest {
 
-    public List<User> getAllUsers() {
+    public static List<User> findUsers() {
         LocalDate date1 = LocalDate.of(2023, 11, 15);
         LocalDate date2 = LocalDate.of(2023, 11, 16);
         LocalDate date3 = LocalDate.of(2023, 12, 17);
@@ -63,6 +63,4 @@ public class DataGeneratorTest {
 
         return users;
     }
-
-
 }
