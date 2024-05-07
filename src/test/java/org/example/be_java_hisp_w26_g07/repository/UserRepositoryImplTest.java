@@ -2,6 +2,7 @@ package org.example.be_java_hisp_w26_g07.repository;
 
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.utils.GeneratorDataTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,34 @@ class UserRepositoryImplTest {
     @BeforeEach
     void setUp() {
         userRepository = new UserRepositoryImpl(GeneratorDataTest.findUsers());
+    }
+
+    @Test
+    @DisplayName("dejar de seguir un usuario: correctamente")
+    void repositoryUnfollow() {
+        // Arrange
+        Boolean expected = true;
+        List<User> users = GeneratorDataTest.usersById(1, 2);
+
+        // Act
+        Boolean actual = userRepository.unfollow(users.get(0), users.get(1));
+
+        // Assert
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("dejar de seguir un usuario: usuario no sigue cliente")
+    void repositoryUnfollowFailed() {
+        // Arrange
+        Boolean expected = false;
+        List<User> users = GeneratorDataTest.usersById(1, 5);
+
+        // Act
+        Boolean actual = userRepository.unfollow(users.get(0), users.get(1));
+
+        // Assert
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
