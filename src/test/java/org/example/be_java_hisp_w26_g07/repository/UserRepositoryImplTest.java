@@ -1,5 +1,6 @@
 package org.example.be_java_hisp_w26_g07.repository;
 
+import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.utils.GeneratorDataTest;
 import org.junit.jupiter.api.Assertions;
@@ -94,9 +95,23 @@ class UserRepositoryImplTest {
 
     @Test
     @DisplayName("T-0006 lista vacia porque usuario no tiene posts")
-    void findProductByFollowEmpty() {}
+    void findProductByFollowEmpty() {
+        // Given - Arrange
+        User seller = userRepository.findById(10);
+        // When - Act
+        List<Post> resPosts = userRepository.findProductByFollow(seller);
+        // Then - Assert
+        org.assertj.core.api.Assertions.assertThat(resPosts).isEmpty();
+    }
 
     @Test
     @DisplayName("T-0006 lista con posts del usuario")
-    void findProductByFollowFilled() {}
+    void findProductByFollowFilled() {
+        // Given - Arrange
+        User seller = userRepository.findById(5);
+        // When - Act
+        List<Post> resPosts = userRepository.findProductByFollow(seller);
+        // Then - Assert
+        org.assertj.core.api.Assertions.assertThat(resPosts).hasSize(2);
+    }
 }

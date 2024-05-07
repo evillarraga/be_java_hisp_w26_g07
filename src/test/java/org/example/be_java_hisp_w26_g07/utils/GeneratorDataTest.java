@@ -60,6 +60,7 @@ public class GeneratorDataTest {
         users.add(new User(7, "Cristopher", new ArrayList<>(), List.of(4), new ArrayList<>(), false));
         users.add(new User(8, "Leandro", new ArrayList<>(), List.of(1, 4), new ArrayList<>(), false));
         users.add(new User(9, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), false));
+        users.add(new User(10, "Juan", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), false));
 
         return users;
     }
