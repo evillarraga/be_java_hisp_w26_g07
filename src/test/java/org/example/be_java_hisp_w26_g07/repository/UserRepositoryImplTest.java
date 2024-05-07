@@ -91,4 +91,12 @@ class UserRepositoryImplTest {
         //Assert
         assertNull(output);
     }
+
+    @Test
+    @DisplayName("T-0006 lista vacia porque usuario no tiene posts")
+    void findProductByFollowEmpty() {}
+
+    @Test
+    @DisplayName("T-0006 lista con posts del usuario")
+    void findProductByFollowFilled() {}
 }

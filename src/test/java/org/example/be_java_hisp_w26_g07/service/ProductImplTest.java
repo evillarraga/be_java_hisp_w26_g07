@@ -75,4 +75,24 @@ class ProductImplTest {
         // Act - Assert
         assertThrows(BadRequestException.class, () -> productImpl.findProductByFollow(userID, order));
     }
+
+    @Test
+    @DisplayName("T-0006 valor de 'orden' no es correcto")
+    void findProductByFollowBadOrder() {}
+
+    @Test
+    @DisplayName("T-0006 el usuario no existe")
+    void findProductByFollowUserDoesNotExist() {}
+
+    @Test
+    @DisplayName("T-0006 la lista de posts esta vacia para ese usuario")
+    void findProductByFollowEmptyPosts() {}
+
+    @Test
+    @DisplayName("T-0006 lista de posts ordenada ascendente")
+    void findProductByFollowAsc() {}
+
+    @Test
+    @DisplayName("T-0006 lista de posts ordenada descendente")
+    void findProductByFollowDesc() {}
 }
