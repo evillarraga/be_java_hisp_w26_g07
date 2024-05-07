@@ -35,7 +35,7 @@ class UserImplTest {
     private UserImpl userImpl;
 
     @Test
-    @DisplayName("T-0001 userId and sellerId are the same")
+    @DisplayName("T-0001 userId y sellerId son iguales")
     void userFollowSellerSameIds() {
         // Given - Arrange
         // When - Act
@@ -46,10 +46,10 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 seller user does not exists")
+    @DisplayName("T-0001 el usuario vendedor no existe")
     void userFollowSellerSellerDoesNotExist() {
         // Given - Arrange
-        // Case when user (seller) with id `userToFollow` does not exist
+        // Caso cuando el usuario (vendedor) con id `userToFollow` no existe
         Mockito.when(userRepository.findById(111))
                 .thenReturn(null);
         // When - Act
@@ -60,10 +60,10 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 follower user does not exists")
+    @DisplayName("T-0001 el usuario seguidor no existe")
     void userFollowSellerFollowerDoesNotExist() {
         // Given - Arrange
-        // Case when user with id `id` does not exist
+        // Caso en el que el usuario con id `id` no existe
         Mockito.when(userRepository.findById(222))
                 .thenReturn(null);
         Mockito.when(userRepository.findById(1))
@@ -78,10 +78,10 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 seller user is not a seller")
+    @DisplayName("T-0001 el usuario vendedor no es vendedor")
     void userFollowSellerIsNotSeller() {
         // Given - Arrange
-        // Case when user with id `userToFollow` is not a seller
+        // Caso en el que el usuario con id `userToFollow` no es un vendedor
         Mockito.when(userRepository.findById(9))
                 .thenReturn(
                         GeneratorDataTest.getUserCustomId(9, false)
@@ -98,10 +98,10 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 user already follows seller")
+    @DisplayName("T-0001 el usuario ya sigue al vendedor")
     void userFollowSellerAlreadyFollows() {
         // Given - Arrange
-        // Case when user wid id `id` already follows the user with id `userToFollow`
+        // Caso en el que el usuario wid id `id` ya sigue al usuario con id `userToFollow`.
         Mockito.when(userRepository.userFollowSeller(5,2))
                 .thenReturn(true);
         Mockito.when(userRepository.findById(5))
@@ -119,7 +119,7 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 success add follower to seller")
+    @DisplayName("T-0001 caso exitoso añadir seguidor al vendedor")
     void userFollowSellerOk() {
         // Given - Arrange
         Mockito.when(userRepository.findById(9))
