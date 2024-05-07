@@ -11,14 +11,34 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
 class UserRepositoryImplTest {
-
     private UserRepositoryImpl userRepository;
 
     @BeforeEach
     void setUp() {
         userRepository = new UserRepositoryImpl(GeneratorDataTest.findUsers());
+    }
+
+    @Test
+    @DisplayName("T-0001 el usuario esta siguiendo al vendedor")
+    void userFollowSellerTest() {
+        // Given - Arrange
+        // When - Act
+        boolean alreadyFollows = userRepository.userFollowSeller(1, 2);
+        boolean isNotFollowing = userRepository.userFollowSeller(7, 7);
+        // Then - Assert
+        Assertions.assertTrue(alreadyFollows);
+        Assertions.assertFalse(isNotFollowing);
+    }
+
+    @Test
+    @DisplayName("T-0001 agregar follow")
+    void addFollowerByIdTest() {
+        // Given - Arrange
+        // When - Act
+        boolean followAdded = userRepository.addFollowerById(8, 5);
+        // Then - Assert
+        Assertions.assertTrue(followAdded);
     }
 
     @Test

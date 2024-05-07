@@ -86,4 +86,8 @@ public class GeneratorDataTest {
         }
         return answer;
     }
+
+    public static User getUserCustomId(Integer customId, Boolean isSeller) {
+        return new User(customId, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), isSeller);
+    }
 }
