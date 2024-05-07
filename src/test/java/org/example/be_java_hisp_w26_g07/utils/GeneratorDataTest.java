@@ -13,13 +13,13 @@ public class GeneratorDataTest {
     public static List<User> findUsers() {
         LocalDate date1 = LocalDate.of(2023, 11, 15);
         LocalDate date2 = LocalDate.of(2023, 11, 16);
-        LocalDate date3 = LocalDate.of(2023, 12, 17);
+        LocalDate date3 = LocalDate.of(2023, 5, 4);
         LocalDate date4 = LocalDate.of(2023, 11, 18);
-        LocalDate date5 = LocalDate.of(2024, 3, 3);
-        LocalDate date6 = LocalDate.of(2024, 4, 4);
-        LocalDate date7 = LocalDate.of(2024, 4, 21);
-        LocalDate date8 = LocalDate.of(2024, 4, 22);
-        LocalDate date9 = LocalDate.of(2023, 11, 23);
+        LocalDate date5 = LocalDate.of(2024, 3, 5);
+        LocalDate date6 = LocalDate.of(2024, 5, 4);
+        LocalDate date7 = LocalDate.of(2024, 5, 6);
+        LocalDate date8 = LocalDate.of(2024, 5, 7);
+        LocalDate date9 = LocalDate.of(2023, 5, 6);
         LocalDate date10 = LocalDate.of(2024, 4, 24);
 
         Post post1 = new Post(1, 1, date1, new Product(1, "Chair", "Furniture", "Furniture Co.", "Brown", "Comfortable chair for home or office"), 1, 99.99);
@@ -62,5 +62,22 @@ public class GeneratorDataTest {
         users.add(new User(9, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), false));
 
         return users;
+    }
+
+    public static List<Post> getListOfSellersLastTwoWeeks() {
+        LocalDate date1 = LocalDate.of(2023, 5, 7);
+        LocalDate date2 = LocalDate.of(2023, 5, 6);
+        LocalDate date3 = LocalDate.of(2023, 5, 8);
+        LocalDate date4 = LocalDate.of(2023, 5, 5);
+
+
+        List<Post> postList = List.of(
+                new Post(1, 1, date1, new Product(1, "Chair", "Furniture", "Furniture Co.", "Brown", "Comfortable chair for home or office"), 1, 99.99),
+                new Post(1, 2, date2, new Product(2, "Desk", "Furniture", "Furniture Co.", "Black", "Sturdy desk for work or study"), 2, 199.99),
+                new Post(1, 3, date3, new Product(3, "Sofa", "Furniture", "Furniture Co.", "Gray", "Modern sofa for living room"), 3, 499.99),
+                new Post(1, 4, date4, new Product(4, "Lamp", "Decor", "Decor Store", "White", "Elegant lamp for home decor"), 2, 29.99)
+        );
+
+        return postList;
     }
 }

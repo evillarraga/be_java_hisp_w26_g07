@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import org.example.be_java_hisp_w26_g07.repository.UserRepositoryImpl;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
