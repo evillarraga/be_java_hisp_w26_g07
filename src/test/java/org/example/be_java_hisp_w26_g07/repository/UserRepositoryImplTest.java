@@ -42,6 +42,34 @@ class UserRepositoryImplTest {
     }
 
     @Test
+    @DisplayName("dejar de seguir un usuario: correctamente")
+    void repositoryUnfollow() {
+        // Arrange
+        Boolean expected = true;
+        List<User> users = GeneratorDataTest.usersById(1, 2);
+
+        // Act
+        Boolean actual = userRepository.unfollow(users.get(0), users.get(1));
+
+        // Assert
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("dejar de seguir un usuario: usuario no sigue cliente")
+    void repositoryUnfollowFailed() {
+        // Arrange
+        Boolean expected = false;
+        List<User> users = GeneratorDataTest.usersById(1, 5);
+
+        // Act
+        Boolean actual = userRepository.unfollow(users.get(0), users.get(1));
+
+        // Assert
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     @DisplayName("Encuentra usuario por su id y lo retorna correctamente")
     void findByIdTest() {
         //Arrange

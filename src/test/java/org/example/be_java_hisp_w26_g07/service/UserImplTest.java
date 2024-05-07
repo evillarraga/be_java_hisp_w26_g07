@@ -1,6 +1,7 @@
 package org.example.be_java_hisp_w26_g07.service;
 
 
+import org.example.be_java_hisp_w26_g07.dto.SuccessResponseDto;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.dto.users.CountFollowersResponseDto;
@@ -177,5 +178,71 @@ class UserImplTest {
         //Act and Assert
         when(userRepository.findById(userId)).thenReturn(userMock);
         assertThrows(NotAcceptable.class,()->userImpl.getNumberOfSellersFollowed(userId));
+    }
+
+    @Test
+    @DisplayName("T-0002 unfollow user: successful")
+    public void unfollowUserSuccessful() {
+        // Arrange
+        Integer clientId = 1;
+        Integer sellerId = 2;
+        List<User> users = GeneratorDataTest.usersById(clientId, sellerId);
+        SuccessResponseDto expected = new SuccessResponseDto("Se ha dejado de seguir al usuario");
+
+        // Act
+        when(userRepository.unfollow(users.get(0), users.get(1))).thenReturn(true);
+        initializeMockUserRepository(users);
+        SuccessResponseDto actual = userImpl.unfollow(clientId, sellerId);
+
+        // Assert
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("T-0002 unfollow user: failed (client not follow seller)")
+    public void unfollowUserFailed() {
+        // Arrange
+        Integer clientId = 1;
+        Integer sellerId = 5;
+        List<User> users = GeneratorDataTest.usersById(clientId, sellerId);
+
+        // Act
+        when(userRepository.unfollow(users.get(0), users.get(1))).thenReturn(false);
+        initializeMockUserRepository(users);
+        Assertions.assertThrows(BadRequestException.class, () -> userImpl.unfollow(clientId, sellerId));
+    }
+
+    @Test
+    @DisplayName("T-0002 unfollow user: failed (user not found)")
+    public void unfollowUserNotFound() {
+        // Arrange
+        Integer clientId = 100;
+        Integer sellerId = 5;
+        List<User> users = GeneratorDataTest.usersById(sellerId);
+
+        // Act
+        when(userRepository.findById(clientId)).thenReturn(null);
+        initializeMockUserRepository(users);
+        Assertions.assertThrows(BadRequestException.class, () -> userImpl.unfollow(clientId, sellerId));
+    }
+
+    @Test
+    @DisplayName("T-0002 unfollow user: failed (seller not found)")
+    public void unfollowSellerNotFound() {
+        // Arrange
+        Integer clientId = 1;
+        Integer sellerId = 500;
+        List<User> users = GeneratorDataTest.usersById(clientId);
+
+        // Act
+        when(userRepository.findById(sellerId)).thenReturn(null);
+        initializeMockUserRepository(users);
+        Assertions.assertThrows(BadRequestException.class, () -> userImpl.unfollow(clientId, sellerId));
+    }
+
+    public void initializeMockUserRepository(List<User> users) {
+        for (User user : users) {
+            when(userRepository.findById(user.getId())).thenReturn(user);
+        }
     }
 }
