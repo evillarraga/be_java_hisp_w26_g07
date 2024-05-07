@@ -1,6 +1,7 @@
-package org.example.be_java_hisp_w26_g07.utils;
+package org.example.be_java_hisp_w26_g07;
 
 import org.example.be_java_hisp_w26_g07.entity.*;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
@@ -8,13 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataGeneratorTest {
+@TestConfiguration
+public class DataConfiguration {
 
     @Bean
     public HashMap<Integer, User> getInitialUsers() {
         List<User> userList = new ArrayList<>();
 
-        userList.add(new User(1, "Monica", true));
+        userList.add(new User(1, "Monica Test", true));
         userList.add(new User(2, "Santiago", true));
         userList.add(new User(3, "Cristian", true));
         userList.add(new User(4, "Edwin", true));
@@ -23,6 +25,7 @@ public class DataGeneratorTest {
         userList.add(new User(7, "Cristopher", false));
         userList.add(new User(8, "Leandro", false));
         userList.add(new User(9, "Martin", false));
+        userList.add(new User(10, "Pepito", true));
 
         HashMap<Integer, User> usersHashMap = new HashMap<>();
 
@@ -38,20 +41,20 @@ public class DataGeneratorTest {
                 new Followers(1, 2),
                 new Followers(1, 3),
                 new Followers(1, 4),
-                new Followers(2, 1),
+                new Followers(2, 1), //Sigue a monica
                 new Followers(2, 3),
-                new Followers(3, 1),
+                new Followers(3, 1),  //Sigue a monica
                 new Followers(3, 2),
                 new Followers(3, 4),
-                new Followers(4, 1),
+                new Followers(4, 1), //Sigue a monica
                 new Followers(5, 2),
                 new Followers(5, 3),
                 new Followers(6, 2),
                 new Followers(6, 3),
                 new Followers(7, 4),
-                new Followers(8, 1),
+                new Followers(8, 1), //Sigue a monica
                 new Followers(8, 4),
-                new Followers(9, 1),
+                new Followers(9, 1), //Sigue a monica
                 new Followers(9, 2),
                 new Followers(9, 3)
         ));

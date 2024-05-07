@@ -94,7 +94,7 @@ public class UserImpl implements IUserService {
         if (user == null) throw new NotFoundException(UserMessageError.CLIENT_NOT_FOUND.getMessage(userId));
         if (!user.getIsSeller()) throw new NotAcceptable(UserMessageError.CLIENT_IS_NOT_SELLER.getMessage());
         List<Integer> followerIdList = iUserRepository.followerIdBySellerId(userId);
-        int followerCount = followerIdList == null ? 0 : followerIdList.size();
+        int followerCount = followerIdList.size();
         return new CountFollowersResponseDto(user.getId(), user.getName(), followerCount);
     }
 
