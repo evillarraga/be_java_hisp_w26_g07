@@ -11,7 +11,6 @@ import org.example.be_java_hisp_w26_g07.utils.GeneratorDataTest;
 
 import org.example.be_java_hisp_w26_g07.utils.UserMessageError;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,37 +33,6 @@ class UserImplTest {
     @InjectMocks
     private UserImpl userImpl;
 
-    @BeforeEach
-    void setUp() {
-        // Case when user (seller) with id `userToFollow` does not exist
-        Mockito.lenient().when(userRepository.findById(111))
-                .thenReturn(null);
-        // Case when user with id `id` does not exist
-        Mockito.lenient().when(userRepository.findById(222))
-                .thenReturn(null);
-        // Case when user with id `userToFollow` is not a seller
-        Mockito.lenient().when(userRepository.findById(9))
-                .thenReturn(
-                        GeneratorDataTest.getUserCustomId(9, false)
-                );
-        // Case when user wid id `id` already follows the user with id `userToFollow`
-        Mockito.lenient().when(userRepository.userFollowSeller(5,2))
-                .thenReturn(true);
-        Mockito.lenient().when(userRepository.findById(5))
-                .thenReturn(
-                        GeneratorDataTest.getUserCustomId(5, false)
-                );
-        Mockito.lenient().when(userRepository.findById(2))
-                .thenReturn(
-                        GeneratorDataTest.getUserCustomId(2, true)
-                );
-        // Case to get the seller
-        Mockito.lenient().when(userRepository.findById(1))
-                .thenReturn(
-                        GeneratorDataTest.getSellerUser()
-                );
-    }
-
     @Test
     @DisplayName("T-0001 userId and sellerId are the same")
     void userFollowSellerSameIds() {
@@ -80,6 +48,9 @@ class UserImplTest {
     @DisplayName("T-0001 seller user does not exists")
     void userFollowSellerSellerDoesNotExist() {
         // Given - Arrange
+        // Case when user (seller) with id `userToFollow` does not exist
+        Mockito.when(userRepository.findById(111))
+                .thenReturn(null);
         // When - Act
         // Then - Assert
         BadRequestException thrown = Assertions.assertThrows(BadRequestException.class,
@@ -91,6 +62,13 @@ class UserImplTest {
     @DisplayName("T-0001 follower user does not exists")
     void userFollowSellerFollowerDoesNotExist() {
         // Given - Arrange
+        // Case when user with id `id` does not exist
+        Mockito.when(userRepository.findById(222))
+                .thenReturn(null);
+        Mockito.when(userRepository.findById(1))
+                .thenReturn(
+                        GeneratorDataTest.getUserCustomId(1, false)
+                );
         // When - Act
         // Then - Assert
         BadRequestException thrown = Assertions.assertThrows(BadRequestException.class,
@@ -102,6 +80,15 @@ class UserImplTest {
     @DisplayName("T-0001 seller user is not a seller")
     void userFollowSellerIsNotSeller() {
         // Given - Arrange
+        // Case when user with id `userToFollow` is not a seller
+        Mockito.when(userRepository.findById(9))
+                .thenReturn(
+                        GeneratorDataTest.getUserCustomId(9, false)
+                );
+        Mockito.when(userRepository.findById(1))
+                .thenReturn(
+                        GeneratorDataTest.getUserCustomId(1, false)
+                );
         // When - Act
         // Then - Assert
         BadRequestException thrown = Assertions.assertThrows(BadRequestException.class,
@@ -113,6 +100,17 @@ class UserImplTest {
     @DisplayName("T-0001 user already follows seller")
     void userFollowSellerAlreadyFollows() {
         // Given - Arrange
+        // Case when user wid id `id` already follows the user with id `userToFollow`
+        Mockito.when(userRepository.userFollowSeller(5,2))
+                .thenReturn(true);
+        Mockito.when(userRepository.findById(5))
+                .thenReturn(
+                        GeneratorDataTest.getUserCustomId(5, false)
+                );
+        Mockito.when(userRepository.findById(2))
+                .thenReturn(
+                        GeneratorDataTest.getUserCustomId(2, true)
+                );
         // When - Act
         Boolean followAdded = userImpl.userFollowSeller(5, 2);
         // Then - Assert
@@ -123,6 +121,14 @@ class UserImplTest {
     @DisplayName("T-0001 success add follower to seller")
     void userFollowSellerOk() {
         // Given - Arrange
+        Mockito.when(userRepository.findById(9))
+                .thenReturn(
+                        GeneratorDataTest.getUserCustomId(9, false)
+                );
+        Mockito.when(userRepository.findById(1))
+                .thenReturn(
+                        GeneratorDataTest.getUserCustomId(1, true)
+                );
         // When - Act
         boolean followAdded = userImpl.userFollowSeller(9, 1);
         // Then - Assert
