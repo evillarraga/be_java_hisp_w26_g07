@@ -201,7 +201,7 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("Test 003 - Lista de seguidores para un posible id no asociado al sistema")
+    @DisplayName("T-0003: Lista de seguidores para un posible id no asociado al sistema")
     void followersListBadPathId() {
         Integer id = Integer.MAX_VALUE;
         User users = null;
@@ -213,7 +213,7 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("Test 003 - Lista de seguidores para un posible id no asociado a un vendedor")
+    @DisplayName("T-0003: Lista de seguidores para un posible id no asociado a un vendedor")
     void followersListBadPathUser() {
         User users = GeneratorDataTest.findUsers().get(4);
         String order = null;
@@ -225,7 +225,7 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("Test 003- Validación de la existencia de la opción ascendente para el vendedor con id:1")
+    @DisplayName("T-0003: Validación de la existencia de la opción ascendente para el vendedor con id:1")
     void followersListOrderValidExistenceAsc() {
         String order = "name_asc";
         User user = GeneratorDataTest.findUsers().get(0);
@@ -250,7 +250,7 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("Test 003- Validación de la existencia de la opción descendiente para el vendedor con id:1")
+    @DisplayName("T-0003: Validación de la existencia de la opción descendiente para el vendedor con id:1")
     void followersListOrderValidExistenceDes() {
         String order = "name_desc";
         User user = GeneratorDataTest.findUsers().get(0);
@@ -275,7 +275,7 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("Test 003- Validación de la existencia de la " +
+    @DisplayName("T-0003: Validación de la existencia de la " +
             "opción descendiente para el vendedor con id:1 cuando order es nulo")
     void followersListOrdernullValidExistenceDes() {
         String order = null;
@@ -301,7 +301,7 @@ class UserImplTest {
     }
 
     @Test
-    @DisplayName("Test 003- Validación de un vendedor sin seguidores 'Caso de borde' ")
+    @DisplayName("T-0003: Validación de un vendedor sin seguidores 'Caso de borde' ")
     void notFollowersListOrderValidExistence() {
         String order = "name_desc";
         List<Integer> followersIdList = new ArrayList<>();
