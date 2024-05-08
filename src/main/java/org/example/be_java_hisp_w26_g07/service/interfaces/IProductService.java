@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface IProductService {
     List<PostDto> findProductByFollow(Integer userID, String order);
+
     PostDto createPost(PostRequestDto postRequestDto);
 }

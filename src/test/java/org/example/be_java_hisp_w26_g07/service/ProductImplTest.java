@@ -36,11 +36,8 @@ class ProductImplTest {
 
     @InjectMocks
     private ProductImpl productImpl;
-    private UserImpl userImpl;
 
-
-
-    @DisplayName("T-0005 - Verificar que el tipo de ordenamiento por fecha exista (US-0009) date_asc")
+    @DisplayName("T-0005: Verificar que el tipo de ordenamiento por fecha exista (US-0009) date_asc")
     @Test
     void verifyNormalContinuityOfSortingByDateAscTest() {
         // Arrange
@@ -57,7 +54,7 @@ class ProductImplTest {
         verify(iUserRepository, atLeast(1)).findById(any(Integer.class));
     }
 
-    @DisplayName("T-0005 - Verificar que el tipo de ordenamiento por fecha exista (US-0009) date_desc")
+    @DisplayName("T-0005: Verificar que el tipo de ordenamiento por fecha exista (US-0009) date_desc")
     @Test
     void verifyNormalContinuityOfSortingByDateDescTest() {
         // Arrange
@@ -74,7 +71,7 @@ class ProductImplTest {
         verify(iUserRepository, atLeast(1)).findById(any(Integer.class));
     }
 
-    @DisplayName("T-0005 - Verificar que el tipo de ordenamiento por fecha no se permita por tipo de orden incorrecto")
+    @DisplayName("T-0005: Verificar que el tipo de ordenamiento por fecha no se permita por tipo de orden incorrecto")
     @Test
     void verifyThatTheProcessIsNotExecutedDueToBadDataType() {
         // Arrange
@@ -85,28 +82,7 @@ class ProductImplTest {
     }
 
     @Test
-    @DisplayName("T-0008 Verificar que la consulta de publicaciones realizadas en las últimas dos semanas de un determinado vendedor sean efectivamente de las últimas dos semanas. (US-0006)")
-    void findProductByFollowTest() {
-
-        //Arrange
-        Integer userId = 1;
-        User userMock = GeneratorDataTest.findUsers().get(0);
-        List<Post> postMockList =GeneratorDataTest.getListOfSellersLastTwoWeeks();
-        ObjectMapper mapper = new ObjectMapper();
-        List<PostDto> expected= mapper.convertValue(postMockList, new TypeReference<List<PostDto>>() {});
-        when(iUserRepository.findById(userId)).thenReturn(userMock);
-        when(iUserRepository.findProductByFollow(userMock)).thenReturn(postMockList);
-
-        //Act
-        List<PostDto> output = productImpl.findProductByFollow(userId,null);
-
-        //Assert
-        assertEquals(expected, output);
-    }
-
-
-    @Test
-    @DisplayName("T-0006 valor de 'orden' no es correcto")
+    @DisplayName("T-0006: Valor de 'orden' no es correcto")
     void findProductByFollowBadOrder() {
         // Given - Arrange
         // When - Act
@@ -119,7 +95,7 @@ class ProductImplTest {
     }
 
     @Test
-    @DisplayName("T-0006 el usuario no existe")
+    @DisplayName("T-0006: El usuario no existe")
     void findProductByFollowUserDoesNotExist() {
         // Given - Arrange
         Mockito.when(iUserRepository.findById(111)).thenReturn(null);
@@ -133,7 +109,7 @@ class ProductImplTest {
     }
 
     @Test
-    @DisplayName("T-0006 la lista de posts esta vacia para ese usuario")
+    @DisplayName("T-0006: La lista de posts esta vacia para ese usuario")
     void findProductByFollowEmptyPosts() {
         // Given - Arrange
         User seller = GeneratorDataTest.getUserCustomId(1, true);
@@ -150,7 +126,7 @@ class ProductImplTest {
     }
 
     @Test
-    @DisplayName("T-0006 lista de posts ordenada ascendente")
+    @DisplayName("T-0006: Lista de posts ordenada ascendente")
     void findProductByFollowAsc() {
         // Given - Arrange
         ObjectMapper mapper = new ObjectMapper();
@@ -172,7 +148,7 @@ class ProductImplTest {
     }
 
     @Test
-    @DisplayName("T-0006 lista de posts ordenada descendente")
+    @DisplayName("T-0006: Lista de posts ordenada descendente")
     void findProductByFollowDesc() {
         // Given - Arrange
         ObjectMapper mapper = new ObjectMapper();
@@ -191,5 +167,27 @@ class ProductImplTest {
         org.assertj.core.api.Assertions.assertThat(response)
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(orderedMockPostDtos);
+    }
+
+
+
+    @Test
+    @DisplayName("T-0008 Verificar que la consulta de publicaciones realizadas en las últimas dos semanas de un determinado vendedor sean efectivamente de las últimas dos semanas. (US-0006)")
+    void findProductByFollowTest() {
+
+        //Arrange
+        Integer userId = 1;
+        User userMock = GeneratorDataTest.findUsers().get(0);
+        List<Post> postMockList =GeneratorDataTest.getListOfSellersLastTwoWeeks();
+        ObjectMapper mapper = new ObjectMapper();
+        List<PostDto> expected= mapper.convertValue(postMockList, new TypeReference<List<PostDto>>() {});
+        when(iUserRepository.findById(userId)).thenReturn(userMock);
+        when(iUserRepository.findProductByFollow(userMock)).thenReturn(postMockList);
+
+        //Act
+        List<PostDto> output = productImpl.findProductByFollow(userId,null);
+
+        //Assert
+        assertEquals(expected, output);
     }
 }

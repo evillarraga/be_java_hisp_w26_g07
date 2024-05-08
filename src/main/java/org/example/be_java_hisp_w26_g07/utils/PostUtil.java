@@ -17,11 +17,9 @@ public class PostUtil {
 
     public static List<Post> getPostOrderByDate(List<Post> postList, String order) {
         if (order == null) return postList;
-        return switch (order) {
-            case "date_asc" -> postList.stream().sorted(Comparator.comparing(Post::getDate)).toList();
-            case "date_desc" -> postList.stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
-            default -> postList;
-        };
+        return order.equals("date_asc") ?
+                postList.stream().sorted(Comparator.comparing(Post::getDate)).toList() :
+                postList.stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
     }
 
     public static Boolean orderValidation(String order) {

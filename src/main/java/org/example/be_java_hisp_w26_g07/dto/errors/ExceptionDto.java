@@ -1,6 +1,5 @@
 package org.example.be_java_hisp_w26_g07.dto.errors;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;

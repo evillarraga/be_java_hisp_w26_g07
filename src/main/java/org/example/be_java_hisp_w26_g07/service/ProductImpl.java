@@ -9,14 +9,12 @@ import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
 import org.example.be_java_hisp_w26_g07.exception.NotFoundException;
 import org.example.be_java_hisp_w26_g07.repository.interfaces.IUserRepository;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IProductService;
-
 import org.example.be_java_hisp_w26_g07.utils.PostUtil;
 import org.example.be_java_hisp_w26_g07.utils.UserMessageError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductImpl implements IProductService {
@@ -27,6 +25,34 @@ public class ProductImpl implements IProductService {
         this.iUserRepository = iUserRepository;
     }
 
+    /**
+     * US 0005
+     * Servicio: Dar de alta una nueva publicación
+     *
+     * @param postRequestDto PostRequestDto
+     */
+    @Override
+    public PostDto createPost(PostRequestDto postRequestDto) {
+        User myUser = iUserRepository.findById(postRequestDto.getUserId());
+        if (myUser == null) {
+            throw new BadRequestException(UserMessageError.USER_NOT_FOUND.getMessage(postRequestDto.getUserId()));
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        Post post = mapper.convertValue(postRequestDto, Post.class);
+        post.setId(PostUtil.increaseCounter());
+        myUser.getPosts().add(post);
+        myUser.setIsSeller(true);
+        return mapper.convertValue(post, PostDto.class);
+    }
+
+    /**
+     * US 0006
+     * servicio: Obtener un listado de las publicaciones realizadas por los vendedores que un usuario sigue en las
+     * últimas dos semanas (para esto tener en cuenta ordenamiento por fecha, publicaciones más recientes primero).
+     *
+     * @param userID PostRequestDto
+     * @param order  Tipo de orden (opcional)
+     */
     @Override
     public List<PostDto> findProductByFollow(Integer userID, String order) {
         ObjectMapper mapper = new ObjectMapper();
@@ -43,19 +69,5 @@ public class ProductImpl implements IProductService {
         }
         return PostUtil.getPostOrderByDate(postsList, order).stream()
                 .map(post -> mapper.convertValue(post, PostDto.class)).toList();
-    }
-
-    @Override
-    public PostDto createPost(PostRequestDto postRequestDto) {
-        User myUser = iUserRepository.findById(postRequestDto.getUserId());
-        if (myUser == null) {
-            throw new BadRequestException(UserMessageError.USER_NOT_FOUND.getMessage(postRequestDto.getUserId()));
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        Post post = mapper.convertValue(postRequestDto, Post.class);
-        post.setId(PostUtil.increaseCounter());
-        myUser.getPosts().add(post);
-        myUser.setIsSeller(true);
-        return mapper.convertValue(post, PostDto.class);
     }
 }
