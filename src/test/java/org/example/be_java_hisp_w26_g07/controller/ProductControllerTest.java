@@ -26,7 +26,7 @@ class ProductControllerTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        objectWriter = new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE,false).writer();
+        objectWriter = new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, false).writer();
     }
 
 }

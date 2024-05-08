@@ -6,12 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-@AllArgsConstructor
 public class ProductDto {
     @NotNull(message = "El id no puede estar vacío.")
     @Positive(message = "El id debe ser mayor a cero")

@@ -22,11 +22,25 @@ public class ProductController {
         this.productService = productService;
     }
 
+    /**
+     * US 0005
+     * Controlador: Dar de alta una nueva publicación
+     *
+     * @param post PostRequestDto
+     */
     @PostMapping("/post")
     public ResponseEntity<PostDto> addPost(@RequestBody @Valid PostRequestDto post) {
         return new ResponseEntity<>(productService.createPost(post), HttpStatus.OK);
     }
 
+    /**
+     * US 0006
+     * Controlador: Obtener un listado de las publicaciones realizadas por los vendedores que un usuario sigue en las
+     * últimas dos semanas (para esto tener en cuenta ordenamiento por fecha, publicaciones más recientes primero).
+     *
+     * @param userId PostRequestDto
+     * @param order  Tipo de orden (opcional)
+     */
     @GetMapping("/followed/{userId}/list")
     public ResponseEntity<?> getLatestPost(
             @PathVariable @NotNull(message = "El id no puede ser nulo")
