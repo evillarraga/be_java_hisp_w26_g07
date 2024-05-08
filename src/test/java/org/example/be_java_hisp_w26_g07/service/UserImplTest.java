@@ -366,6 +366,13 @@ class UserImplTest {
 
     }
 
+    @Test
+     void findFollowedUsersWithUnexistinguserShouldThrowException(){
+        when(userRepository.findById(1)).thenReturn(null);
+        Assertions.assertThrows(NotFoundException.class, () -> userImpl.findFollowedUsers(1, null));
+
+    }
+
     public void initializeMockUserRepository(List<User> users) {
         for (User user : users) {
             when(userRepository.findById(user.getId())).thenReturn(user);
