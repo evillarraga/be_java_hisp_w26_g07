@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.example.be_java_hisp_w26_g07.dto.products.PostDto;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IProductService;
-import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
 import org.example.be_java_hisp_w26_g07.utils.GeneratorDataTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +32,6 @@ class ProductControllerTest {
     private IProductService productService;
 
     ObjectMapper objectMapper;
-
     ObjectWriter objectWriter;
 
     @BeforeEach
