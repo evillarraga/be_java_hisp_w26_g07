@@ -1,5 +1,10 @@
 package org.example.be_java_hisp_w26_g07.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.be_java_hisp_w26_g07.dto.products.PostDto;
+import org.example.be_java_hisp_w26_g07.dto.products.ProductDto;
+import org.example.be_java_hisp_w26_g07.dto.users.CountFollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
@@ -17,8 +22,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -31,6 +38,9 @@ class ProductImplTest {
 
     @InjectMocks
     private ProductImpl productImpl;
+    private UserImpl userImpl;
+
+
 
     @DisplayName("T-0005 - Verificar que el tipo de ordenamiento por fecha exista (US-0009) date_asc")
     @Test
@@ -75,4 +85,25 @@ class ProductImplTest {
         // Act - Assert
         assertThrows(BadRequestException.class, () -> productImpl.findProductByFollow(userID, order));
     }
+
+    @Test
+    @DisplayName("T-0008 Verificar que la consulta de publicaciones realizadas en las últimas dos semanas de un determinado vendedor sean efectivamente de las últimas dos semanas. (US-0006)")
+    void findProductByFollowTest() {
+
+        //Arrange
+        Integer userId = 1;
+        User userMock = GeneratorDataTest.findUsers().get(0);
+        List<Post> postMockList =GeneratorDataTest.getListOfSellersLastTwoWeeks();
+        ObjectMapper mapper = new ObjectMapper();
+        List<PostDto> expected= mapper.convertValue(postMockList, new TypeReference<List<PostDto>>() {});
+        when(iUserRepository.findById(userId)).thenReturn(userMock);
+        when(iUserRepository.findProductByFollow(userMock)).thenReturn(postMockList);
+
+        //Act
+        List<PostDto> output = productImpl.findProductByFollow(userId,null);
+
+        //Assert
+        assertEquals(expected, output);
+    }
+
 }
