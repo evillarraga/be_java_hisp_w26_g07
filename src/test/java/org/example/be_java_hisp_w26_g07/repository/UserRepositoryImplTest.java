@@ -21,7 +21,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 el usuario esta siguiendo al vendedor")
+    @DisplayName("T-0001: El usuario esta siguiendo al vendedor")
     void userFollowSellerTest() {
         // Given - Arrange
         // When - Act
@@ -33,7 +33,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 agregar follow")
+    @DisplayName("T-0001: Agregar follow")
     void addFollowerByIdTest() {
         // Given - Arrange
         // When - Act
@@ -43,7 +43,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("dejar de seguir un usuario: correctamente")
+    @DisplayName("T-0002: Dejar de seguir un usuario: correctamente")
     void repositoryUnfollow() {
         // Arrange
         Boolean expected = true;
@@ -57,7 +57,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("dejar de seguir un usuario: usuario no sigue cliente")
+    @DisplayName("T-0002: Dejar de seguir un usuario: usuario no sigue cliente")
     void repositoryUnfollowFailed() {
         // Arrange
         Boolean expected = false;
@@ -94,7 +94,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("T-0006 lista vacia porque usuario no tiene posts")
+    @DisplayName("T-0006: lista vacia porque usuario no tiene posts")
     void findProductByFollowEmpty() {
         // Given - Arrange
         User seller = userRepository.findById(10);
@@ -105,7 +105,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("T-0006 lista con posts del usuario")
+    @DisplayName("T-0006: lista con posts del usuario")
     void findProductByFollowFilled() {
         // Given - Arrange
         User seller = userRepository.findById(5);
