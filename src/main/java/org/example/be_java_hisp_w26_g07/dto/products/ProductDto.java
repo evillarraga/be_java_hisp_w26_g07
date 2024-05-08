@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class ProductDto {
     @NotNull(message = "El id no puede estar vacío.")
