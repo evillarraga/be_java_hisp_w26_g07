@@ -37,7 +37,7 @@ public class ProductImpl implements IProductService {
         if (user == null) {
             throw new NotFoundException(UserMessageError.USER_NOT_FOUND.getMessage(userID));
         }
-        List<Post> postsList = iUserRepository.findProductByFollow(iUserRepository.findById(userID));
+        List<Post> postsList = iUserRepository.findProductByFollow(user);
         if (postsList.isEmpty()) {
             throw new NotFoundException("No se encontraron publicaciones para las ultimas dos semanas.");
         }

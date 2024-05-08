@@ -1,5 +1,6 @@
 package org.example.be_java_hisp_w26_g07.repository;
 
+import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.utils.GeneratorDataTest;
 import org.junit.jupiter.api.Assertions;
@@ -11,14 +12,34 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
 class UserRepositoryImplTest {
-
     private UserRepositoryImpl userRepository;
 
     @BeforeEach
     void setUp() {
         userRepository = new UserRepositoryImpl(GeneratorDataTest.findUsers());
+    }
+
+    @Test
+    @DisplayName("T-0001 el usuario esta siguiendo al vendedor")
+    void userFollowSellerTest() {
+        // Given - Arrange
+        // When - Act
+        boolean alreadyFollows = userRepository.userFollowSeller(1, 2);
+        boolean isNotFollowing = userRepository.userFollowSeller(7, 7);
+        // Then - Assert
+        Assertions.assertTrue(alreadyFollows);
+        Assertions.assertFalse(isNotFollowing);
+    }
+
+    @Test
+    @DisplayName("T-0001 agregar follow")
+    void addFollowerByIdTest() {
+        // Given - Arrange
+        // When - Act
+        boolean followAdded = userRepository.addFollowerById(8, 5);
+        // Then - Assert
+        Assertions.assertTrue(followAdded);
     }
 
     @Test
@@ -70,5 +91,27 @@ class UserRepositoryImplTest {
 
         //Assert
         assertNull(output);
+    }
+
+    @Test
+    @DisplayName("T-0006 lista vacia porque usuario no tiene posts")
+    void findProductByFollowEmpty() {
+        // Given - Arrange
+        User seller = userRepository.findById(10);
+        // When - Act
+        List<Post> resPosts = userRepository.findProductByFollow(seller);
+        // Then - Assert
+        org.assertj.core.api.Assertions.assertThat(resPosts).isEmpty();
+    }
+
+    @Test
+    @DisplayName("T-0006 lista con posts del usuario")
+    void findProductByFollowFilled() {
+        // Given - Arrange
+        User seller = userRepository.findById(5);
+        // When - Act
+        List<Post> resPosts = userRepository.findProductByFollow(seller);
+        // Then - Assert
+        org.assertj.core.api.Assertions.assertThat(resPosts).hasSize(2);
     }
 }
