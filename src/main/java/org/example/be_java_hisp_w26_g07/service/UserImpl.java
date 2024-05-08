@@ -72,6 +72,7 @@ public class UserImpl implements IUserService {
     @Override
     public FollowersResponseDto findFollowersByOrder(Integer userId, String order) {
         User seller = iUserRepository.findById(userId);
+        if (!UserUtils.orderValidation(order)) throw new NotFoundException(UserMessageError.LIST_CLIENTE_ORDER.getMessage(userId));
         if (seller == null) throw new NotFoundException(UserMessageError.SELLER_NOT_FOUND.getMessage(userId));
         if (!seller.getIsSeller()) throw new BadRequestException(UserMessageError.CLIENT_IS_NOT_SELLER.getMessage());
         List<UserInfoFollowsDto> userInfoFollowsDto = getUserInfoFollowers(seller.getFollowerIds());

@@ -4,6 +4,7 @@ package org.example.be_java_hisp_w26_g07.service;
 import org.example.be_java_hisp_w26_g07.dto.SuccessResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.users.CountFollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.users.FollowedResponseDto;
+import org.example.be_java_hisp_w26_g07.dto.users.FollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.users.UserInfoFollowsDto;
 import org.example.be_java_hisp_w26_g07.entity.User;
 import org.example.be_java_hisp_w26_g07.exception.BadRequestException;
@@ -22,6 +23,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -196,6 +199,124 @@ class UserImplTest {
         initializeMockUserRepository(users);
         Assertions.assertThrows(BadRequestException.class, () -> userImpl.unfollow(clientId, sellerId));
     }
+
+    @Test
+    @DisplayName("Test 003 - Lista de seguidores para un posible id no asociado al sistema")
+    void followersListBadPathId() {
+        Integer id = Integer.MAX_VALUE;
+        User users = null;
+        String order = "name_desc";
+
+        Mockito.when(userRepository.findById(id)).thenReturn(users);
+
+        Assertions.assertThrows(NotFoundException.class, () -> {userImpl.findFollowersByOrder(id, order);});
+    }
+
+    @Test
+    @DisplayName("Test 003 - Lista de seguidores para un posible id no asociado a un vendedor")
+    void followersListBadPathUser() {
+        User users = GeneratorDataTest.findUsers().get(4);
+        String order = null;
+
+        Mockito.when(userRepository.findById(users.getId())).thenReturn(users);
+
+        Assertions.assertThrows(BadRequestException.class,
+                () -> {userImpl.findFollowersByOrder(users.getId(), order);});
+    }
+
+    @Test
+    @DisplayName("Test 003- Validación de la existencia de la opción ascendente para el vendedor con id:1")
+    void followersListOrderValidExistenceAsc() {
+        String order = "name_asc";
+        User user = GeneratorDataTest.findUsers().get(0);
+        List<Integer> followersIdList = user.getFollowerIds();
+        List<User> userFollows = Arrays.asList(
+                GeneratorDataTest.findUsers().get(1),
+                GeneratorDataTest.findUsers().get(2),
+                GeneratorDataTest.findUsers().get(3)
+        );
+
+        Mockito.when(userRepository.findById(user.getId())).thenReturn(user);
+        Mockito.when(userRepository.findById(userFollows.get(0).getId())).thenReturn(userFollows.get(0));
+        Mockito.when(userRepository.findById(userFollows.get(1).getId())).thenReturn(userFollows.get(1));
+        Mockito.when(userRepository.findById(userFollows.get(2).getId())).thenReturn(userFollows.get(2));
+
+        FollowersResponseDto followedResponseDto = userImpl.findFollowersByOrder(user.getId(), order);
+
+        Assertions.assertNotNull(followedResponseDto);
+        Assertions.assertEquals(user.getName(), followedResponseDto.getName());
+        Assertions.assertEquals(user.getId(), followedResponseDto.getId());
+        Assertions.assertEquals(userFollows.size(), followedResponseDto.getFollowers().size());
+    }
+
+    @Test
+    @DisplayName("Test 003- Validación de la existencia de la opción descendiente para el vendedor con id:1")
+    void followersListOrderValidExistenceDes() {
+        String order = "name_desc";
+        User user = GeneratorDataTest.findUsers().get(0);
+        List<Integer> followersIdList = user.getFollowerIds();
+        List<User> userFollows = Arrays.asList(
+                GeneratorDataTest.findUsers().get(1),
+                GeneratorDataTest.findUsers().get(2),
+                GeneratorDataTest.findUsers().get(3)
+        );
+
+        Mockito.when(userRepository.findById(user.getId())).thenReturn(user);
+        Mockito.when(userRepository.findById(userFollows.get(0).getId())).thenReturn(userFollows.get(0));
+        Mockito.when(userRepository.findById(userFollows.get(1).getId())).thenReturn(userFollows.get(1));
+        Mockito.when(userRepository.findById(userFollows.get(2).getId())).thenReturn(userFollows.get(2));
+
+        FollowersResponseDto followedResponseDto = userImpl.findFollowersByOrder(user.getId(), order);
+
+        Assertions.assertNotNull(followedResponseDto);
+        Assertions.assertEquals(user.getName(), followedResponseDto.getName());
+        Assertions.assertEquals(user.getId(), followedResponseDto.getId());
+        Assertions.assertEquals(userFollows.size(), followedResponseDto.getFollowers().size());
+    }
+
+    @Test
+    @DisplayName("Test 003- Validación de la existencia de la " +
+            "opción descendiente para el vendedor con id:1 cuando order es nulo")
+    void followersListOrdernullValidExistenceDes() {
+        String order = null;
+        User user = GeneratorDataTest.findUsers().get(0);
+        List<Integer> followersIdList = user.getFollowerIds();
+        List<User> userFollows = Arrays.asList(
+                GeneratorDataTest.findUsers().get(1),
+                GeneratorDataTest.findUsers().get(2),
+                GeneratorDataTest.findUsers().get(3)
+        );
+
+        Mockito.when(userRepository.findById(user.getId())).thenReturn(user);
+        Mockito.when(userRepository.findById(userFollows.get(0).getId())).thenReturn(userFollows.get(0));
+        Mockito.when(userRepository.findById(userFollows.get(1).getId())).thenReturn(userFollows.get(1));
+        Mockito.when(userRepository.findById(userFollows.get(2).getId())).thenReturn(userFollows.get(2));
+
+        FollowersResponseDto followedResponseDto = userImpl.findFollowersByOrder(user.getId(), order);
+
+        Assertions.assertNotNull(followedResponseDto);
+        Assertions.assertEquals(user.getName(), followedResponseDto.getName());
+        Assertions.assertEquals(user.getId(), followedResponseDto.getId());
+        Assertions.assertEquals(userFollows.size(), followedResponseDto.getFollowers().size());
+    }
+
+    @Test
+    @DisplayName("Test 003- Validación de un vendedor sin seguidores 'Caso de borde' ")
+    void notFollowersListOrderValidExistence() {
+        String order = "name_desc";
+        List<Integer> followersIdList = new ArrayList<>();
+        User user = new User(Integer.MAX_VALUE, "Criss", null, followersIdList, null, true);
+
+        Mockito.when(userRepository.findById(user.getId())).thenReturn(user);
+
+        FollowersResponseDto followedResponseDto = userImpl.findFollowersByOrder(user.getId(), order);
+
+        Assertions.assertNotNull(followedResponseDto);
+        Assertions.assertEquals(user.getName(), followedResponseDto.getName());
+        Assertions.assertEquals(user.getId(), followedResponseDto.getId());
+        Assertions.assertEquals(0, followedResponseDto.getFollowers().size());
+    }
+
 
     @Test
     @DisplayName("T-0004: Verificar el correcto ordenamiento ascendente por nombre")
