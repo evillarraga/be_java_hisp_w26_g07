@@ -3,8 +3,11 @@ package org.example.be_java_hisp_w26_g07.utils;
 import org.example.be_java_hisp_w26_g07.entity.Post;
 import org.example.be_java_hisp_w26_g07.entity.Product;
 import org.example.be_java_hisp_w26_g07.entity.User;
+import org.example.be_java_hisp_w26_g07.dto.products.PostRequestDto;
+import org.example.be_java_hisp_w26_g07.dto.products.ProductDto;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,5 +93,22 @@ public class GeneratorDataTest {
 
     public static User getUserCustomId(Integer customId, Boolean isSeller) {
         return new User(customId, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), isSeller);
+    }
+
+    public static PostRequestDto getPostRequestDto(){
+        PostRequestDto postRequestDto = new PostRequestDto();
+        postRequestDto.setUserId(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date = LocalDate.parse("10-10-1996", formatter);
+        postRequestDto.setDate(date);
+        postRequestDto.setCategory(100);
+        postRequestDto.setPrice(1500.50);
+
+
+        ProductDto productDto = new ProductDto(1, "Chair", "Furniture",
+                "Racer", "Brown", "Comfortable chair for home or office");
+        postRequestDto.setProduct(productDto);
+
+        return postRequestDto;
     }
 }
