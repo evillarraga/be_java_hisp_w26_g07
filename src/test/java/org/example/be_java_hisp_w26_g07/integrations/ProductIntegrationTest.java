@@ -63,7 +63,7 @@ public class ProductIntegrationTest {
 
     @Test
     @DisplayName("US-0005: crear un nuevo post - bad request por fecha")
-    public void createPostBadRequest() throws Exception {
+    public void createPostBadRequestDate() throws Exception {
         String body = "{" +
                 "\"user_id\":1," +
                 "\"date\":\"32-04-2021\"," +
@@ -84,5 +84,29 @@ public class ProductIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Formato no valido"));
+    }
+
+    @Test
+    @DisplayName("US-0005: crear un nuevo post - bad request por fecha")
+    public void createPostBadRequest() throws Exception {
+        String body = "{" +
+                "\"user_id\":1," +
+                "\"date\":\"22-04-2021\"," +
+                "\"product\":{" +
+                "\"product_id\":10," +
+                "\"product_name\":\"Mouse\"," +
+                "\"type\":\"Gamer\"," +
+                "\"brand\":\"&Logitech&\"," +
+                "\"color\":\"&Black&\"," +
+                "\"notes\":\"Special Edition\"" +
+                "}," +
+                "\"category\":100," +
+                "\"price\":1500.50" +
+                "}";
+        mockMvc.perform(post("/products/post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }

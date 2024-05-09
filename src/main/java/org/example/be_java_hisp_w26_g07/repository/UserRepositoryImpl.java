@@ -24,11 +24,6 @@ public class UserRepositoryImpl implements IUserRepository {
         return users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
     }
 
-    @Override
-    public List<User> findAll() {
-        return users;
-    }
-
     /**
      * validacion de si un usuario ya sigue un vendedor
      *

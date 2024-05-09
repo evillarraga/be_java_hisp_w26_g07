@@ -23,7 +23,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -209,7 +208,9 @@ class UserImplTest {
 
         Mockito.when(userRepository.findById(id)).thenReturn(users);
 
-        Assertions.assertThrows(NotFoundException.class, () -> {userImpl.findFollowersByOrder(id, order);});
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            userImpl.findFollowersByOrder(id, order);
+        });
     }
 
     @Test
@@ -221,7 +222,9 @@ class UserImplTest {
         Mockito.when(userRepository.findById(users.getId())).thenReturn(users);
 
         Assertions.assertThrows(BadRequestException.class,
-                () -> {userImpl.findFollowersByOrder(users.getId(), order);});
+                () -> {
+                    userImpl.findFollowersByOrder(users.getId(), order);
+                });
     }
 
     @Test
@@ -229,17 +232,10 @@ class UserImplTest {
     void followersListOrderValidExistenceAsc() {
         String order = "name_asc";
         User user = GeneratorDataTest.findUsers().get(0);
-        List<Integer> followersIdList = user.getFollowerIds();
-        List<User> userFollows = Arrays.asList(
-                GeneratorDataTest.findUsers().get(1),
-                GeneratorDataTest.findUsers().get(2),
-                GeneratorDataTest.findUsers().get(3)
-        );
+        List<User> userFollows = GeneratorDataTest.usersById(2, 3, 4);
 
+        initializeMockUserRepository(userFollows);
         Mockito.when(userRepository.findById(user.getId())).thenReturn(user);
-        Mockito.when(userRepository.findById(userFollows.get(0).getId())).thenReturn(userFollows.get(0));
-        Mockito.when(userRepository.findById(userFollows.get(1).getId())).thenReturn(userFollows.get(1));
-        Mockito.when(userRepository.findById(userFollows.get(2).getId())).thenReturn(userFollows.get(2));
 
         FollowersResponseDto followedResponseDto = userImpl.findFollowersByOrder(user.getId(), order);
 
@@ -254,17 +250,10 @@ class UserImplTest {
     void followersListOrderValidExistenceDes() {
         String order = "name_desc";
         User user = GeneratorDataTest.findUsers().get(0);
-        List<Integer> followersIdList = user.getFollowerIds();
-        List<User> userFollows = Arrays.asList(
-                GeneratorDataTest.findUsers().get(1),
-                GeneratorDataTest.findUsers().get(2),
-                GeneratorDataTest.findUsers().get(3)
-        );
+        List<User> userFollows = GeneratorDataTest.usersById(2, 3, 4);
 
+        initializeMockUserRepository(userFollows);
         Mockito.when(userRepository.findById(user.getId())).thenReturn(user);
-        Mockito.when(userRepository.findById(userFollows.get(0).getId())).thenReturn(userFollows.get(0));
-        Mockito.when(userRepository.findById(userFollows.get(1).getId())).thenReturn(userFollows.get(1));
-        Mockito.when(userRepository.findById(userFollows.get(2).getId())).thenReturn(userFollows.get(2));
 
         FollowersResponseDto followedResponseDto = userImpl.findFollowersByOrder(user.getId(), order);
 
@@ -280,17 +269,10 @@ class UserImplTest {
     void followersListOrdernullValidExistenceDes() {
         String order = null;
         User user = GeneratorDataTest.findUsers().get(0);
-        List<Integer> followersIdList = user.getFollowerIds();
-        List<User> userFollows = Arrays.asList(
-                GeneratorDataTest.findUsers().get(1),
-                GeneratorDataTest.findUsers().get(2),
-                GeneratorDataTest.findUsers().get(3)
-        );
+        List<User> userFollows = GeneratorDataTest.usersById(2, 3, 4);
 
         Mockito.when(userRepository.findById(user.getId())).thenReturn(user);
-        Mockito.when(userRepository.findById(userFollows.get(0).getId())).thenReturn(userFollows.get(0));
-        Mockito.when(userRepository.findById(userFollows.get(1).getId())).thenReturn(userFollows.get(1));
-        Mockito.when(userRepository.findById(userFollows.get(2).getId())).thenReturn(userFollows.get(2));
+        initializeMockUserRepository(userFollows);
 
         FollowersResponseDto followedResponseDto = userImpl.findFollowersByOrder(user.getId(), order);
 
@@ -323,20 +305,11 @@ class UserImplTest {
     void findFollowedUsersAsc() {
         //Arrange
         Integer userId = 3;
-        User user3 = GeneratorDataTest.findUsers().get(2);
-        User user1 = GeneratorDataTest.findUsers().get(0);
-        User user2 = GeneratorDataTest.findUsers().get(1);
-        User user5 = GeneratorDataTest.findUsers().get(4);
-        User user6 = GeneratorDataTest.findUsers().get(5);
-        User user9 = GeneratorDataTest.findUsers().get(8);
+        List<User> followedUsers = GeneratorDataTest.usersById(1, 2, 5, 6, 9);
+        User user = GeneratorDataTest.findUsers().get(2);
 
-        when(userRepository.findById(userId)).thenReturn(user3);
-
-        when(userRepository.findById(1)).thenReturn(user1);
-        when(userRepository.findById(2)).thenReturn(user2);
-        when(userRepository.findById(5)).thenReturn(user5);
-        when(userRepository.findById(6)).thenReturn(user6);
-        when(userRepository.findById(9)).thenReturn(user9);
+        initializeMockUserRepository(followedUsers);
+        when(userRepository.findById(userId)).thenReturn(user);
         FollowedResponseDto nameAsc = userImpl.findFollowedUsers(userId, "name_asc");
         List<UserInfoFollowsDto> ascFollowed = nameAsc.getFollowed();
 
@@ -354,20 +327,11 @@ class UserImplTest {
     void findFollowedUsersDesc() {
         //Arrange
         Integer userId = 3;
-        User user3 = GeneratorDataTest.findUsers().get(2);
-        User user1 = GeneratorDataTest.findUsers().get(0);
-        User user2 = GeneratorDataTest.findUsers().get(1);
-        User user5 = GeneratorDataTest.findUsers().get(4);
-        User user6 = GeneratorDataTest.findUsers().get(5);
-        User user9 = GeneratorDataTest.findUsers().get(8);
+        User user = GeneratorDataTest.findUsers().get(2);
+        List<User> followedUsers = GeneratorDataTest.usersById(1, 2, 5, 6, 9);
 
-        when(userRepository.findById(userId)).thenReturn(user3);
-
-        when(userRepository.findById(1)).thenReturn(user1);
-        when(userRepository.findById(2)).thenReturn(user2);
-        when(userRepository.findById(5)).thenReturn(user5);
-        when(userRepository.findById(6)).thenReturn(user6);
-        when(userRepository.findById(9)).thenReturn(user9);
+        when(userRepository.findById(userId)).thenReturn(user);
+        initializeMockUserRepository(followedUsers);
         FollowedResponseDto nameAsc = userImpl.findFollowedUsers(userId, "name_desc");
         List<UserInfoFollowsDto> ascFollowed = nameAsc.getFollowed();
 
@@ -385,20 +349,11 @@ class UserImplTest {
     void findFollowedUsers() {
         //Arrange
         Integer userId = 3;
-        User user3 = GeneratorDataTest.findUsers().get(2);
-        User user1 = GeneratorDataTest.findUsers().get(0);
-        User user2 = GeneratorDataTest.findUsers().get(1);
-        User user5 = GeneratorDataTest.findUsers().get(4);
-        User user6 = GeneratorDataTest.findUsers().get(5);
-        User user9 = GeneratorDataTest.findUsers().get(8);
+        User user = GeneratorDataTest.findUsers().get(2);
+        List<User> followedUsers = GeneratorDataTest.usersById(1, 2, 5, 6, 9);
 
-        when(userRepository.findById(userId)).thenReturn(user3);
-
-        when(userRepository.findById(1)).thenReturn(user1);
-        when(userRepository.findById(2)).thenReturn(user2);
-        when(userRepository.findById(5)).thenReturn(user5);
-        when(userRepository.findById(6)).thenReturn(user6);
-        when(userRepository.findById(9)).thenReturn(user9);
+        initializeMockUserRepository(followedUsers);
+        when(userRepository.findById(userId)).thenReturn(user);
         FollowedResponseDto nameAsc = userImpl.findFollowedUsers(userId, null);
         List<UserInfoFollowsDto> ascFollowed = nameAsc.getFollowed();
 
@@ -416,19 +371,10 @@ class UserImplTest {
         //Arrange
         Integer userId = 3;
         User user3 = GeneratorDataTest.findUsers().get(2);
-        User user1 = GeneratorDataTest.findUsers().get(0);
-        User user2 = GeneratorDataTest.findUsers().get(1);
-        User user5 = GeneratorDataTest.findUsers().get(4);
-        User user6 = GeneratorDataTest.findUsers().get(5);
-        User user9 = GeneratorDataTest.findUsers().get(8);
+        List<User> followedUsers = GeneratorDataTest.usersById(1, 2, 5, 6, 9);
 
+        initializeMockUserRepository(followedUsers);
         when(userRepository.findById(userId)).thenReturn(user3);
-
-        when(userRepository.findById(1)).thenReturn(user1);
-        when(userRepository.findById(2)).thenReturn(user2);
-        when(userRepository.findById(5)).thenReturn(user5);
-        when(userRepository.findById(6)).thenReturn(user6);
-        when(userRepository.findById(9)).thenReturn(user9);
         FollowedResponseDto nameAsc = userImpl.findFollowedUsers(userId, "invalid");
         List<UserInfoFollowsDto> ascFollowed = nameAsc.getFollowed();
 
@@ -485,7 +431,7 @@ class UserImplTest {
     }
 
     @Test
-     void findFollowedUsersWithUnexistinguserShouldThrowException(){
+    void findFollowedUsersWithUnexistinguserShouldThrowException() {
         when(userRepository.findById(1)).thenReturn(null);
         Assertions.assertThrows(NotFoundException.class, () -> userImpl.findFollowedUsers(1, null));
 
