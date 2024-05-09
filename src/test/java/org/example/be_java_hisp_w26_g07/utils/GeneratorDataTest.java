@@ -60,6 +60,7 @@ public class GeneratorDataTest {
         users.add(new User(7, "Cristopher", new ArrayList<>(), List.of(4), new ArrayList<>(), false));
         users.add(new User(8, "Leandro", new ArrayList<>(), List.of(1, 4), new ArrayList<>(), false));
         users.add(new User(9, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), false));
+        users.add(new User(10, "Juan", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), false));
 
         return users;
     }
@@ -70,14 +71,24 @@ public class GeneratorDataTest {
         LocalDate date3 = LocalDate.of(2023, 5, 8);
         LocalDate date4 = LocalDate.of(2023, 5, 5);
 
-
-        List<Post> postList = List.of(
+        return List.of(
                 new Post(1, 1, date1, new Product(1, "Chair", "Furniture", "Furniture Co.", "Brown", "Comfortable chair for home or office"), 1, 99.99),
                 new Post(1, 2, date2, new Product(2, "Desk", "Furniture", "Furniture Co.", "Black", "Sturdy desk for work or study"), 2, 199.99),
                 new Post(1, 3, date3, new Product(3, "Sofa", "Furniture", "Furniture Co.", "Gray", "Modern sofa for living room"), 3, 499.99),
                 new Post(1, 4, date4, new Product(4, "Lamp", "Decor", "Decor Store", "White", "Elegant lamp for home decor"), 2, 29.99)
         );
+    }
 
-        return postList;
+    public static List<User> usersById(Integer... ids) {
+        List<User> answer = new ArrayList<>();
+        List<User> users = findUsers();
+        for (Integer i : ids) {
+            answer.add(users.stream().filter(u -> u.getId().equals(i)).findFirst().orElse(null));
+        }
+        return answer;
+    }
+
+    public static User getUserCustomId(Integer customId, Boolean isSeller) {
+        return new User(customId, "Martin", new ArrayList<>(), List.of(1, 2, 3), new ArrayList<>(), isSeller);
     }
 }

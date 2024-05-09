@@ -3,13 +3,13 @@ package org.example.be_java_hisp_w26_g07.dto.products;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode
 public class ProductDto {
     @NotNull(message = "El id no puede estar vacío.")
     @Positive(message = "El id debe ser mayor a cero")
