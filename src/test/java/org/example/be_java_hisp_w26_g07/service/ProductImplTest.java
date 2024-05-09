@@ -142,6 +142,7 @@ class ProductImplTest {
         // When - Act
         List<PostDto> response = productImpl.findProductByFollow(1, "date_asc");
         // Then - Assert
+        // TODO: revisar el import de la libreria
         org.assertj.core.api.Assertions.assertThat(response)
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(orderedMockPostDtos);

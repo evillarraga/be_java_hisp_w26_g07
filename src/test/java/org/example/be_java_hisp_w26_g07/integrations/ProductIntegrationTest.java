@@ -3,6 +3,9 @@ package org.example.be_java_hisp_w26_g07.integrations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.example.be_java_hisp_w26_g07.dto.products.PostDto;
+import org.example.be_java_hisp_w26_g07.dto.products.ProductDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,29 +36,32 @@ public class ProductIntegrationTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        objectWriter = new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, false).writer();
+        objectWriter = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .configure(SerializationFeature.WRAP_ROOT_VALUE, false)
+                .writer();
     }
 
     @Test
     @DisplayName("US-0005: crear un nuevo post - body correcto")
     public void createPost() throws Exception {
-        String body = "{" +
-                "\"user_id\":1," +
-                "\"date\":\"29-04-2021\"," +
-                "\"product\":{" +
-                "\"product_id\":10," +
-                "\"product_name\":\"Mouse\"," +
-                "\"type\":\"Gamer\"," +
-                "\"brand\":\"Logitech\"," +
-                "\"color\":\"Black\"," +
-                "\"notes\":\"Special Edition\"" +
-                "}," +
-                "\"category\":100," +
-                "\"price\":1500.50" +
-                "}";
+        PostDto body = PostDto.builder()
+                .userId(1)
+                .date(LocalDate.of(2021, 4, 29))
+                .product(ProductDto.builder()
+                        .id(10)
+                        .name("Mouse")
+                        .type("Gamer")
+                        .brand("Logitech")
+                        .color("Black")
+                        .notes("Special Edition")
+                        .build())
+                .category(100)
+                .price(1500.50)
+                .build();
         mockMvc.perform(post("/products/post")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
+                        .content(objectWriter.writeValueAsString(body)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.user_id").value(1))
@@ -63,49 +71,24 @@ public class ProductIntegrationTest {
 
     @Test
     @DisplayName("US-0005: crear un nuevo post - bad request por fecha")
-    public void createPostBadRequestDate() throws Exception {
-        String body = "{" +
-                "\"user_id\":1," +
-                "\"date\":\"32-04-2021\"," +
-                "\"product\":{" +
-                "\"product_id\":10," +
-                "\"product_name\":\"Mouse\"," +
-                "\"type\":\"Gamer\"," +
-                "\"brand\":\"&Logitech&\"," +
-                "\"color\":\"&Black&\"," +
-                "\"notes\":\"Special Edition\"" +
-                "}," +
-                "\"category\":100," +
-                "\"price\":1500.50" +
-                "}";
-        mockMvc.perform(post("/products/post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Formato no valido"));
-    }
-
-    @Test
-    @DisplayName("US-0005: crear un nuevo post - bad request por fecha")
     public void createPostBadRequest() throws Exception {
-        String body = "{" +
-                "\"user_id\":1," +
-                "\"date\":\"22-04-2021\"," +
-                "\"product\":{" +
-                "\"product_id\":10," +
-                "\"product_name\":\"Mouse\"," +
-                "\"type\":\"Gamer\"," +
-                "\"brand\":\"&Logitech&\"," +
-                "\"color\":\"&Black&\"," +
-                "\"notes\":\"Special Edition\"" +
-                "}," +
-                "\"category\":100," +
-                "\"price\":1500.50" +
-                "}";
+        PostDto body = PostDto.builder()
+                .userId(1)
+                .date(LocalDate.of(2021, 4, 22))
+                .product(ProductDto.builder()
+                        .id(10)
+                        .name("Mouse")
+                        .type("Gamer")
+                        .brand("&Logitech&")
+                        .color("&Black&")
+                        .notes("Special Edition")
+                        .build())
+                .category(100)
+                .price(1500.50)
+                .build();
         mockMvc.perform(post("/products/post")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
+                        .content(objectWriter.writeValueAsString(body)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }

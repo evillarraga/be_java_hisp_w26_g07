@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.example.be_java_hisp_w26_g07.dto.SuccessResponseDto;
 import org.example.be_java_hisp_w26_g07.dto.users.CountFollowersResponseDto;
 import org.example.be_java_hisp_w26_g07.service.interfaces.IUserService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,8 +53,8 @@ class UserControllerTest {
         Mockito.when(userService.userFollowSeller(5, 2)).thenReturn(true);
         // When - Act
         MvcResult result = mockMvc.perform(
-                MockMvcRequestBuilders.post("/users/{userId}/follow/{userIdToFollow}", 5, 2)
-        ).andDo(MockMvcResultHandlers.print())
+                        MockMvcRequestBuilders.post("/users/{userId}/follow/{userIdToFollow}", 5, 2)
+                ).andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNoContent()).andReturn();
         // Then - Assert
         String body = result.getResponse().getContentAsString();
@@ -86,13 +85,13 @@ class UserControllerTest {
             "CountFollowersResponseDto")
     void numberOfSellersFollowedTest() throws Exception {
         Integer userId = 1;
-        CountFollowersResponseDto countFollowersResponseDto = new CountFollowersResponseDto(userId,"Monica",3);
+        CountFollowersResponseDto countFollowersResponseDto = new CountFollowersResponseDto(userId, "Monica", 3);
         String jsonExpected = objectWriter.writeValueAsString(countFollowersResponseDto);
         when(userService.getNumberOfSellersFollowed(userId)).thenReturn(countFollowersResponseDto);
         ResultActions result = mockMvc.perform(get("/users/{userId}/followers/count", userId));
         result.andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(r-> assertEquals(
+                .andExpect(r -> assertEquals(
                         jsonExpected, r.getResponse().getContentAsString()
                 ));
     }
